@@ -1,0 +1,9 @@
+@"
+__pycache__/
+*.pyc
+.env
+.DS_Store
+*.log
+venv/
+.env
+"@ | Out-File -FilePath .gitignore -Encoding UTF8
