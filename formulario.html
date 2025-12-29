@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Denúncia - Alo Trânsito</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ========== VARIÁVEIS CSS (IGUAL AO INDEX) ========== */
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #818cf8;
+            --primary-dark: #4338ca;
+            --secondary: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --success: #10b981;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        /* ========== RESET E ESTILOS GERAIS ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ========== HEADER ========== */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            padding: 25px 20px;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(79, 70, 229, 0.2);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 768px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .header-title h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .header-title p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-top: 2px;
+        }
+
+        /* ========== CONTEÚDO PRINCIPAL ========== */
+        .main-content {
+            flex: 1;
+            padding: 25px 20px;
+            max-width: 768px;
+            margin: 0 auto;
+            width: 100%;
+            padding-bottom: 100px;
+        }
+
+        .form-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-card h2 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-card h2 i {
+            color: var(--primary);
+        }
+
+        /* ========== FORMULÁRIO ========== */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .form-group .help-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .textarea-wrapper {
+            background: #f8fafc;
+            border-radius: var(--radius-sm);
+            padding: 15px;
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+
+        .textarea-wrapper:focus-within {
+            background: white;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            border: none;
+            background: transparent;
+            font-size: 1rem;
+            color: var(--text-main);
+            resize: none;
+            outline: none;
+            line-height: 1.5;
+            font-family: inherit;
+        }
+
+        textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* ========== CONTADOR DE CARACTERES ========== */
+        .char-counter {
+            text-align: right;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .char-counter.warning {
+            color: var(--warning);
+        }
+
+        .char-counter.danger {
+            color: var(--danger);
+        }
+
+        /* ========== ANEXOS ========== */
+        .anexos-container {
+            margin-top: 20px;
+        }
+
+        .anexos-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .anexo-btn {
+            background: #f1f5f9;
+            border: none;
+            padding: 12px 20px;
+            border-radius: var(--radius-sm);
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .anexo-btn:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+        }
+
+        .anexo-btn.audio { color: #ec4899; }
+        .anexo-btn.video { color: #f59e0b; }
+        .anexo-btn.file { color: #3b82f6; }
+
+        .file-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .file-tag {
+            background: #f1f5f9;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .file-tag i {
+            cursor: pointer;
+            color: var(--danger);
+            font-size: 0.9rem;
+        }
+
+        /* ========== INFORMAÇÕES DE LOCALIZAÇÃO ========== */
+        .location-info {
+            background: #f0f9ff;
+            border-radius: var(--radius-sm);
+            padding: 15px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .location-info i {
+            color: #0ea5e9;
+            font-size: 1.2rem;
+        }
+
+        .location-info span {
+            color: var(--text-main);
+        }
+
+        .location-info.simulada {
+            background: #fef3c7;
+        }
+
+        .location-info.simulada i {
+            color: var(--warning);
+        }
+
+        /* ========== BARRA INFERIOR DE ENVIO ========== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .btn-cancel {
+            background: #f1f5f9;
+            color: var(--text-main);
+        }
+
+        .btn-cancel:hover {
+            background: #e2e8f0;
+        }
+
+        .btn-send {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-send:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-send:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* ========== MODAL DE GRAVAÇÃO ========== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 400px;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .record-circle {
+            width: 80px;
+            height: 80px;
+            background: var(--danger);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        .timer {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            font-family: monospace;
+            color: var(--text-main);
+        }
+
+        .video-preview {
+            width: 100%;
+            max-height: 300px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* ========== MENSAGENS ========== */
+        .message {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 20px;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            z-index: 1001;
+            display: none;
+            animation: slideDown 0.3s ease-out;
+            max-width: 90%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        .message.error {
+            background-color: #fee;
+            color: var(--danger);
+            border-left: 4px solid var(--danger);
+        }
+
+        .message.success {
+            background-color: #efffef;
+            color: var(--success);
+            border-left: 4px solid var(--success);
+        }
+
+        .message.warning {
+            background-color: #fff8e6;
+            color: var(--warning);
+            border-left: 4px solid var(--warning);
+        }
+
+        /* ========== LOADING ========== */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            backdrop-filter: blur(5px);
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ========== RESPONSIVIDADE ========== */
+        @media (min-width: 768px) {
+            .app-header, .main-content {
+                max-width: 768px;
+                margin: 0 auto;
+            }
+            
+            .app-header {
+                border-radius: 0;
+            }
+            
+            .bottom-nav {
+                max-width: 768px;
+                left: 50%;
+                transform: translateX(-50%);
+                border-radius: var(--radius) var(--radius) 0 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .anexos-buttons {
+                flex-direction: column;
+            }
+            
+            .bottom-nav {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .main-content {
+                padding: 20px 15px;
+            }
+            
+            .form-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ========== HEADER ========== -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="header-left">
+                <button class="back-button" onclick="voltar()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="header-title">
+                    <h1>Nova Denúncia</h1>
+                    <p>Descreva detalhadamente o incidente</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========== CONTEÚDO PRINCIPAL ========== -->
+    <main class="main-content">
+        <!-- FORMULÁRIO -->
+        <div class="form-card">
+            <h2><i class="fas fa-edit"></i> Descrição da Denúncia</h2>
+            
+            <form id="denunciaForm">
+                <div class="form-group">
+                    <label for="denuncia">Descreva o que aconteceu:</label>
+                    <div class="textarea-wrapper">
+                        <textarea 
+                            id="denuncia" 
+                            placeholder="Ex: Motorista do carro ABC-1234 ultrapassou pelo acostamento na via XYZ, colocando pedestres em risco..."
+                            required
+                            maxlength="2000"
+                        ></textarea>
+                    </div>
+                    <div class="char-counter" id="charCounter">0 / 2000 caracteres</div>
+                    <div class="help-text">
+                        Seja específico: inclua placa do veículo, local, hora, e detalhes relevantes.
+                    </div>
+                </div>
+
+                <!-- LOCALIZAÇÃO -->
+                <div class="form-group">
+                    <label><i class="fas fa-map-marker-alt"></i> Localização</label>
+                    <div id="locationInfo" class="location-info">
+                        <i class="fas fa-sync fa-spin"></i>
+                        <span>Obtendo sua localização...</span>
+                    </div>
+                    <div class="help-text">
+                        Sua localização será enviada automaticamente para identificar o local do incidente.
+                    </div>
+                </div>
+
+                <!-- ANEXOS -->
+                <div class="form-group">
+                    <label><i class="fas fa-paperclip"></i> Anexos (opcional)</label>
+                    <div class="help-text" style="margin-bottom: 15px;">
+                        Adicione fotos, áudios ou vídeos como evidência. Máximo de 3 arquivos, 10MB cada.
+                    </div>
+
+                    <div class="anexos-buttons">
+                        <button type="button" class="anexo-btn file" onclick="document.getElementById('fileInput').click()">
+                            <i class="fas fa-paperclip"></i> Anexar Arquivo
+                        </button>
+                        <button type="button" class="anexo-btn audio" onclick="openMedia('audio')">
+                            <i class="fas fa-microphone"></i> Gravar Áudio
+                        </button>
+                        <button type="button" class="anexo-btn video" onclick="openMedia('video')">
+                            <i class="fas fa-video"></i> Gravar Vídeo
+                        </button>
+                    </div>
+
+                    <input type="file" id="fileInput" hidden multiple accept="image/*,.pdf,.doc,.docx">
+
+                    <div class="file-list" id="fileDisplay">
+                        <div style="color: var(--text-muted); font-style: italic; padding: 10px;">
+                            Nenhum arquivo anexado
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- ========== BARRA INFERIOR ========== -->
+    <nav class="bottom-nav">
+        <button class="btn btn-cancel" onclick="voltar()">
+            <i class="fas fa-times"></i> Cancelar
+        </button>
+        <button type="submit" form="denunciaForm" class="btn btn-send" id="btnSubmit">
+            <i class="fas fa-paper-plane"></i> Enviar Denúncia
+        </button>
+    </nav>
+
+    <!-- ========== MODAL DE GRAVAÇÃO ========== -->
+    <div class="modal-overlay" id="mediaModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 style="font-size: 1.2rem;">Gravação</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="record-circle">
+                    <i class="fas fa-circle"></i>
+                </div>
+                <div class="timer" id="timer">00:00</div>
+                <video id="videoPreview" class="video-preview" autoplay muted></video>
+                <div class="modal-actions">
+                    <button class="btn btn-cancel" onclick="closeModal()" style="flex: 1;">
+                        Cancelar
+                    </button>
+                    <button class="btn btn-send" id="btnAction" style="background: var(--success); flex: 1;">
+                        Iniciar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== MENSAGEM FLUTUANTE ========== -->
+    <div id="message" class="message"></div>
+
+    <!-- ========== LOADING OVERLAY ========== -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p style="font-size: 0.9rem; color: var(--text-main); font-weight: 600;">Enviando denúncia...</p>
+    </div>
+
+    <script>
+        // ==================== CONFIGURAÇÃO ====================
+        const API_BASE_URL = 'http://192.168.100.215:3000';
+        
+        // Elementos DOM
+        const denunciaForm = document.getElementById('denunciaForm');
+        const denunciaTextarea = document.getElementById('denuncia');
+        const charCounter = document.getElementById('charCounter');
+        const fileInput = document.getElementById('fileInput');
+        const fileDisplay = document.getElementById('fileDisplay');
+        const btnSubmit = document.getElementById('btnSubmit');
+        const messageDiv = document.getElementById('message');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const locationInfo = document.getElementById('locationInfo');
+        
+        // Elementos do modal
+        const mediaModal = document.getElementById('mediaModal');
+        const videoPreview = document.getElementById('videoPreview');
+        const timerElement = document.getElementById('timer');
+        const btnAction = document.getElementById('btnAction');
+        
+        // Variáveis globais
+        let files = [];
+        let recorder;
+        let stream;
+        let timerInterval;
+        const MAX_FILES = 3;
+        const MAX_FILE_SIZE = 10 * 1024 * 1000; // 10MB
+        
+        // Variáveis para localização
+        let userLocation = {
+            latitude: null,
+            longitude: null,
+            accuracy: null,
+            source: null,
+            timestamp: null,
+            city: null,
+            address: null
+        };
+
+        // ==================== INICIALIZAÇÃO ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar autenticação
+            if (!checkAuthentication()) return;
+            
+            // Iniciar captura de localização
+            initLocationCapture();
+            
+            // Atualizar contador de caracteres
+            updateCharCounter();
+            
+            // Configurar event listeners
+            setupEventListeners();
+        });
+
+        // ==================== AUTENTICAÇÃO ====================
+        function checkAuthentication() {
+            const token = localStorage.getItem('auth_token');
+            const expiresAt = localStorage.getItem('token_expires');
+            
+            if (!token || !expiresAt) {
+                showMessage('Você precisa estar logado para enviar uma denúncia.', 'error');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+                return false;
+            }
+            
+            const now = new Date();
+            const expires = new Date(expiresAt);
+            
+            if (now >= expires) {
+                localStorage.removeItem('auth_token');
+                localStorage.removeItem('token_expires');
+                localStorage.removeItem('user_data');
+                
+                showMessage('Sua sessão expirou. Faça login novamente.', 'error');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+                return false;
+            }
+            
+            return true;
+        }
+
+        function getAuthToken() {
+            return localStorage.getItem('auth_token');
+        }
+
+        // ==================== LOCALIZAÇÃO ====================
+        async function initLocationCapture() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        userLocation = {
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude,
+                            accuracy: position.coords.accuracy,
+                            source: 'geolocation',
+                            timestamp: new Date().toISOString()
+                        };
+                        updateLocationUI();
+                        getReverseGeocoding();
+                    },
+                    (error) => {
+                        console.log('Geolocalização não disponível:', error.message);
+                        getLocationByIP();
+                    },
+                    { 
+                        enableHighAccuracy: false,
+                        maximumAge: 600000,
+                        timeout: 5000 
+                    }
+                );
+            } else {
+                getLocationByIP();
+            }
+        }
+
+        async function getLocationByIP() {
+            try {
+                const response = await fetch('https://ipapi.co/json/');
+                if (response.ok) {
+                    const data = await response.json();
+                    userLocation = {
+                        latitude: data.latitude,
+                        longitude: data.longitude,
+                        accuracy: 50000,
+                        source: 'ip_api',
+                        timestamp: new Date().toISOString(),
+                        city: data.city,
+                        region: data.region,
+                        country: data.country_name
+                    };
+                    updateLocationUI();
+                }
+            } catch (error) {
+                console.log('Falha ao obter localização por IP:', error);
+                locationInfo.innerHTML = `
+                    <i class="fas fa-exclamation-triangle" style="color: var(--warning);"></i>
+                    <span>Localização não disponível</span>
+                `;
+                locationInfo.className = 'location-info simulada';
+            }
+        }
+
+        async function getReverseGeocoding() {
+            if (!userLocation.latitude || !userLocation.longitude) return;
+            
+            try {
+                const response = await fetch(
+                    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${userLocation.latitude}&lon=${userLocation.longitude}&zoom=18&addressdetails=1`
+                );
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.address) {
+                        userLocation.address = data.display_name;
+                        updateLocationUI();
+                    }
+                }
+            } catch (error) {
+                console.log('Erro no reverse geocoding:', error);
+            }
+        }
+
+        function updateLocationUI() {
+            if (userLocation.address) {
+                locationInfo.innerHTML = `
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>${userLocation.address}</span>
+                `;
+            } else if (userLocation.city) {
+                locationInfo.innerHTML = `
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>${userLocation.city}, ${userLocation.region} (via IP)</span>
+                `;
+                locationInfo.className = 'location-info simulada';
+            } else if (userLocation.latitude) {
+                locationInfo.innerHTML = `
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Localizado (${userLocation.accuracy < 100 ? 'Preciso' : 'Aproximado'})</span>
+                `;
+            }
+            
+            locationInfo.style.color = '';
+        }
+
+        // ==================== FUNÇÕES DE ARQUIVOS ====================
+        fileInput.onchange = e => {
+            const newFiles = Array.from(e.target.files);
+            
+            newFiles.forEach(file => {
+                if (files.length >= MAX_FILES) {
+                    showMessage(`Limite de ${MAX_FILES} arquivos atingido.`, 'error');
+                    return;
+                }
+                
+                if (file.size > MAX_FILE_SIZE) {
+                    showMessage(`O arquivo "${file.name}" excede 10MB.`, 'error');
+                    return;
+                }
+                
+                if (!files.some(f => f.name === file.name && f.size === file.size)) {
+                    files.push(file);
+                }
+            });
+            
+            renderFiles();
+            fileInput.value = '';
+        };
+
+        function renderFiles() {
+            if (files.length === 0) {
+                fileDisplay.innerHTML = `
+                    <div style="color: var(--text-muted); font-style: italic; padding: 10px;">
+                        Nenhum arquivo anexado
+                    </div>
+                `;
+                return;
+            }
+            
+            fileDisplay.innerHTML = files.map((f, i) => `
+                <div class="file-tag">
+                    <i class="fas fa-file"></i>
+                    ${f.name.length > 20 ? f.name.substring(0, 20) + '...' : f.name}
+                    <i class="fas fa-times-circle" onclick="removeFile(${i})" title="Remover"></i>
+                </div>
+            `).join('');
+        }
+
+        function removeFile(index) {
+            files.splice(index, 1);
+            renderFiles();
+        }
+
+        // ==================== GRAVAÇÃO DE MÍDIA ====================
+        async function openMedia(type) {
+            if (!checkAuthentication()) return;
+            
+            mediaModal.style.display = 'flex';
+            videoPreview.style.display = type === 'video' ? 'block' : 'none';
+            timerElement.textContent = '00:00';
+            btnAction.textContent = 'INICIAR';
+            btnAction.style.background = 'var(--success)';
+            
+            btnAction.onclick = async () => {
+                if (!recorder || recorder.state === 'inactive') {
+                    await startRecording(type);
+                } else {
+                    stopRecording();
+                }
+            };
+        }
+
+        async function startRecording(type) {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    audio: true, 
+                    video: type === 'video' 
+                });
+                
+                if (type === 'video') {
+                    videoPreview.srcObject = stream;
+                }
+                
+                let chunks = [];
+                recorder = new MediaRecorder(stream);
+                
+                recorder.ondataavailable = e => chunks.push(e.data);
+                recorder.onstop = () => {
+                    const blob = new Blob(chunks, { 
+                        type: type === 'audio' ? 'audio/webm' : 'video/webm' 
+                    });
+                    
+                    const fileName = `${type}_denuncia_${new Date().toISOString().replace(/[:.]/g, '-')}.webm`;
+                    const file = new File([blob], fileName, { 
+                        type: blob.type,
+                        lastModified: Date.now()
+                    });
+                    
+                    if (files.length < MAX_FILES) {
+                        files.push(file);
+                        renderFiles();
+                        showMessage(`${type === 'audio' ? 'Áudio' : 'Vídeo'} gravado com sucesso!`, 'success');
+                    } else {
+                        showMessage(`Limite de ${MAX_FILES} arquivos atingido.`, 'error');
+                    }
+                    
+                    closeModal();
+                };
+                
+                recorder.start();
+                btnAction.textContent = "PARAR";
+                btnAction.style.background = "var(--danger)";
+                startTimer();
+                
+            } catch (error) {
+                console.error('Erro ao acessar dispositivo:', error);
+                showMessage('Verifique as permissões de câmera e microfone.', 'error');
+                closeModal();
+            }
+        }
+
+        function stopRecording() {
+            if (recorder && recorder.state !== 'inactive') {
+                recorder.stop();
+                stream.getTracks().forEach(track => track.stop());
+                clearInterval(timerInterval);
+            }
+        }
+
+        function startTimer() {
+            let seconds = 0;
+            clearInterval(timerInterval);
+            
+            timerInterval = setInterval(() => {
+                seconds++;
+                const minutes = Math.floor(seconds / 60).toString().padStart(2, '0');
+                const secs = (seconds % 60).toString().padStart(2, '0');
+                timerElement.textContent = `${minutes}:${secs}`;
+            }, 1000);
+        }
+
+        function closeModal() {
+            mediaModal.style.display = 'none';
+            clearInterval(timerInterval);
+            timerElement.textContent = "00:00";
+            
+            if (recorder) {
+                recorder.stop();
+            }
+            
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+            
+            videoPreview.srcObject = null;
+        }
+
+        // ==================== CONTADOR DE CARACTERES ====================
+        function updateCharCounter() {
+            const length = denunciaTextarea.value.length;
+            charCounter.textContent = `${length} / 2000 caracteres`;
+            
+            if (length > 1800) {
+                charCounter.className = 'char-counter danger';
+            } else if (length > 1500) {
+                charCounter.className = 'char-counter warning';
+            } else {
+                charCounter.className = 'char-counter';
+            }
+        }
+
+        // ==================== FUNÇÕES DE MENSAGENS ====================
+        function showMessage(text, type = 'error') {
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+            
+            if (type === 'error' || type === 'warning') {
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        function setLoading(isLoading) {
+            if (isLoading) {
+                loadingOverlay.style.display = 'flex';
+                btnSubmit.disabled = true;
+                btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+            } else {
+                loadingOverlay.style.display = 'none';
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Denúncia';
+            }
+        }
+
+        // ==================== ENVIO DO FORMULÁRIO ====================
+        async function enviarDenuncia(e) {
+            e.preventDefault();
+            
+            if (!checkAuthentication()) return;
+            
+            const denuncia = denunciaTextarea.value.trim();
+            
+            // Validações
+            if (!denuncia) {
+                showMessage('Descreva o incidente antes de enviar.', 'error');
+                denunciaTextarea.focus();
+                return;
+            }
+            
+            if (denuncia.length < 20) {
+                showMessage('A descrição deve ter pelo menos 20 caracteres.', 'error');
+                denunciaTextarea.focus();
+                return;
+            }
+            
+            if (denuncia.length > 2000) {
+                showMessage('Descrição muito longa (max: 2000 caracteres).', 'error');
+                return;
+            }
+            
+            setLoading(true);
+            
+            try {
+                const formData = new FormData();
+                formData.append('descricao', denuncia);
+                
+                // Dados do usuário
+                const userData = JSON.parse(localStorage.getItem('user_data') || '{}');
+                if (userData.id) {
+                    formData.append('usuario_id', userData.id);
+                }
+                
+                // Localização
+                if (userLocation.latitude && userLocation.longitude) {
+                    formData.append('latitude', userLocation.latitude);
+                    formData.append('longitude', userLocation.longitude);
+                 /* formData.append('precisao', userLocation.accuracy || 1000); */
+                }
+                
+               
+                
+                // Arquivos
+                files.forEach((file, index) => {
+                    formData.append(`anexos[${index}]`, file);
+                });
+                
+                // Enviar para API
+                const token = getAuthToken();
+                const response = await fetch(`${API_BASE_URL}/denuncias/criar`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const protocolo = data.protocolo || data.id || 'N/A';
+                    
+                    showMessage(`✅ Denúncia enviada! Protocolo: ${protocolo}`, 'success');
+                    
+                    // Limpar formulário
+                    setTimeout(() => {
+                        denunciaTextarea.value = '';
+                        files = [];
+                        renderFiles();
+                        updateCharCounter();
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 1000);
+                    }, 2000);
+                    
+                } else {
+                    const errorText = await response.text();
+                    let errorMessage = 'Erro ao enviar denúncia';
+                    
+                    try {
+                        const errorData = JSON.parse(errorText);
+                        errorMessage = errorData.message || errorData.error || errorMessage;
+                    } catch {
+                        if (response.status === 401) {
+                            errorMessage = 'Sessão expirada. Faça login novamente.';
+                        } else if (response.status === 413) {
+                            errorMessage = 'Arquivos muito grandes.';
+                        }
+                    }
+                    
+                    showMessage(`❌ ${errorMessage}`, 'error');
+                }
+                
+            } catch (error) {
+                console.error('Erro:', error);
+                showMessage('❌ Erro de conexão. Tente novamente.', 'error');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        // ==================== FUNÇÕES DE NAVEGAÇÃO ====================
+        function voltar() {
+            if (denunciaTextarea.value.trim() !== '' || files.length > 0) {
+                if (confirm('Você tem alterações não salvas. Deseja realmente sair?')) {
+                    window.location.href = 'index.html';
+                }
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // ==================== EVENT LISTENERS ====================
+        function setupEventListeners() {
+            denunciaTextarea.addEventListener('input', updateCharCounter);
+            denunciaForm.addEventListener('submit', enviarDenuncia);
+            
+            // Fechar modal ao clicar fora
+            window.addEventListener('click', function(e) {
+                if (e.target === mediaModal) {
+                    closeModal();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
