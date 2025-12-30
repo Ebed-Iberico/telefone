@@ -50,11 +50,11 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            background:  #ffffff;
         }
 
         .login-box {
-            background: white;
+            background:#ffffff;
             border-radius: var(--radius);
             padding: 40px 30px;
             width: 100%;
@@ -68,16 +68,10 @@
             margin-bottom: 30px;
         }
 
-        .login-header i {
-            font-size: 48px;
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-
         .login-header h1 {
             font-size: 28px;
             font-weight: 700;
-            color: var(--text-main);
+            color: #f0f9ff;
         }
 
         .login-header p {
@@ -750,17 +744,36 @@
                 border-radius: 0;
             }
         }
+        /* Ajuste o tamanho do logo */
+.login-header .logo {
+    width: 120px;          /* Largura máxima */
+    height: auto;          /* Altura proporcional */
+    max-width: 100%;       /* Não ultrapassa o container */
+    margin-bottom: 15px;   /* Espaço abaixo */
+}
+
+/* Para centralizar */
+.login-header {
+    text-align: center;
+}
+
+/* Para logo responsivo */
+@media (max-width: 768px) {
+    .login-header .logo {
+        width: 80px;       /* Menor em mobile */
+    }
+}
     </style>
 </head>
 <body>
     <!-- ========== TELA DE LOGIN ========== -->
     <div class="login-container" id="loginContainer">
-        <div class="login-box">
-            <div class="login-header">
-                <i class="fas fa-traffic-light"></i>
-                <h1>Alo Trânsito</h1>
-                <p>Faça login para acessar o sistema</p>
-            </div>
+    <div class="login-box">
+        <div class="login-header">
+            <!-- Logo como imagem -->
+            <img src="logo_alo_transito.png" alt="telefone" class="logo">
+            <p>Faça login para acessar o sistema</p>
+        </div>
             
             <div id="message" class="message"></div>
             
@@ -797,6 +810,14 @@
                     <div class="spinner" id="spinner"></div>
                 </button>
             </form>
+
+            <div style="text-align: center; margin-top: 25px;">
+    <a href="cadastro_final.html" 
+       style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 15px;">
+        <i class="fas fa-user-plus"></i> Criar uma conta
+    </a>
+    
+</div>
             
             <div class="login-footer">
                 <p>© <span id="currentYear"></span> Sistema de Denúncias - Alo Trânsito</p>
@@ -1091,7 +1112,7 @@
     <script>
         // ==================== CONFIGURAÇÃO GLOBAL ====================
         // ATUALIZE ESTE IP COM O SEU IP REAL
-        const API_BASE_URL = 'http://192.168.100.215:3000';
+        const API_BASE_URL = 'https://denuncias-backend-0vax.onrender.com';
         
         // Elementos DOM principais
         const loginContainer = document.getElementById('loginContainer');

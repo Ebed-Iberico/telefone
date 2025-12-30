@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Nova Conta</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #4ba26f 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1000px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .left-panel {
+            flex: 1;
+            background: linear-gradient(to bottom right, #667eea, #764ba2);
+            color: white;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .left-panel h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .left-panel p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .features {
+            list-style: none;
+        }
+        
+        .features li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .features i {
+            margin-right: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .right-panel {
+            flex: 1.2;
+            padding: 50px 40px;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo i {
+            font-size: 48px;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .logo h1 {
+            color: #333;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .input-container {
+            position: relative;
+        }
+        
+        .input-container i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        
+        select {
+            appearance: none;
+            padding-right: 15px;
+            cursor: pointer;
+        }
+        
+        .select-arrow {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+            pointer-events: none;
+        }
+        
+        input:focus, select:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+        }
+        
+        .show-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #777;
+            cursor: pointer;
+        }
+        
+        .password-strength {
+            margin-top: 5px;
+            height: 5px;
+            border-radius: 5px;
+            background-color: #eee;
+            overflow: hidden;
+        }
+        
+        .strength-meter {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s, background-color 0.3s;
+        }
+        
+        .strength-text {
+            font-size: 12px;
+            margin-top: 5px;
+            color: #777;
+        }
+        
+        .terms {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        
+        .terms input {
+            width: auto;
+            margin-top: 5px;
+            margin-right: 10px;
+        }
+        
+        .terms label {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .terms a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .terms a:hover {
+            text-decoration: underline;
+        }
+        
+        .register-button {
+            width: 100%;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+            position: relative;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .register-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .register-button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+        
+        .register-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .login-link {
+            text-align: center;
+            font-size: 15px;
+            color: #555;
+        }
+        
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+        
+        .error {
+            background-color: #ffe6e6;
+            color: #c00;
+            border: 1px solid #ffb3b3;
+        }
+        
+        .success {
+            background-color: #e6ffe6;
+            color: #008000;
+            border: 1px solid #b3ffb3;
+        }
+        
+        .warning {
+            background-color: #fff8e6;
+            color: #cc8400;
+            border: 1px solid #ffdd99;
+        }
+        
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #ddd;
+            z-index: 1;
+        }
+        
+        .step {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: #ddd;
+            color: #777;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s;
+        }
+        
+        .step.active {
+            background-color: #667eea;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .step.completed {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .step-label {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 12px;
+            color: #777;
+        }
+        
+        .step.active .step-label {
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .step.completed .step-label {
+            color: #4CAF50;
+        }
+        
+        .form-step {
+            display: none;
+        }
+        
+        .form-step.active {
+            display: block;
+        }
+        
+        .step-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .step-button {
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .step-button.prev {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        
+        .step-button.next {
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .step-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .step-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .button-text {
+            transition: opacity 0.3s;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                max-width: 500px;
+            }
+            
+            .left-panel {
+                padding: 30px;
+            }
+            
+            .right-panel {
+                padding: 30px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .progress-steps {
+                margin-bottom: 20px;
+            }
+            
+            .step-label {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .left-panel h2 {
+                font-size: 24px;
+            }
+            
+            .left-panel p {
+                font-size: 14px;
+            }
+            
+            .logo h1 {
+                font-size: 24px;
+            }
+            
+            input, select {
+                padding: 12px 12px 12px 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <h2>Junte-se a nós</h2>
+            <p>Crie sua conta para acessar recursos exclusivos e personalizar sua experiência conosco.</p>
+            
+            <ul class="features">
+                <li><i class="fas fa-check"></i> Acesso a conteúdo exclusivo</li>
+                <li><i class="fas fa-check"></i> Personalize suas preferências</li>
+                <li><i class="fas fa-check"></i> Salve seu progresso</li>
+                <li><i class="fas fa-check"></i> Receba atualizações e ofertas</li>
+                <li><i class="fas fa-check"></i> Suporte prioritário</li>
+            </ul>
+            
+            <p>Já tem uma conta? <a href="#" id="loginLinkLeft" style="color: white; font-weight: bold;">Faça login aqui</a></p>
+        </div>
+        
+        <div class="right-panel">
+            <div class="logo">
+                <i class="fas fa-user-plus"></i>
+                <h1>Criar Nova Conta</h1>
+            </div>
+            
+            <div class="progress-steps">
+                <div class="step active" id="step1">
+                    <span>1</span>
+                    <div class="step-label">Informações</div>
+                </div>
+                <div class="step" id="step2">
+                    <span>2</span>
+                    <div class="step-label">Contato</div>
+                </div>
+                <div class="step" id="step3">
+                    <span>3</span>
+                    <div class="step-label">Segurança</div>
+                </div>
+            </div>
+            
+            <div id="message" class="message"></div>
+            
+            <form id="registerForm">
+                <!-- Passo 1: Informações Pessoais -->
+                <div class="form-step active" id="formStep1">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">Nome *</label>
+                            <div class="input-container">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="firstName" placeholder="Digite seu nome" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Sobrenome *</label>
+                            <div class="input-container">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="lastName" placeholder="Digite seu sobrenome" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="residenciaActual">Residência *</label>
+                        <div class="input-container">
+                            <i class="fas fa-home"></i>
+                            <input type="text" id="residenciaActual" placeholder="Digite sua residência" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="birthDate">Data de Nascimento *</label>
+                        <div class="input-container">
+                            <i class="fas fa-calendar"></i>
+                            <input type="date" id="birthDate" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="localNascimento">Local de Nascimento *</label>
+                        <div class="input-container">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text" id="localNascimento" placeholder="Cidade/Província de nascimento" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gender">Gênero</label>
+                        <div class="input-container">
+                            <i class="fas fa-venus-mars"></i>
+                            <select id="gender">
+                                <option value="">Selecione</option>
+                                <option value="MASCULINO">Masculino</option>
+                                <option value="FEMININO">Feminino</option>
+                                <option value="OUTRO">Outro</option>
+                                <option value="PREFIRO_NAO_INFORMAR">Prefiro não informar</option>
+                            </select>
+                            <div class="select-arrow">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-buttons">
+                        <button type="button" class="step-button prev" disabled>Voltar</button>
+                        <button type="button" class="step-button next" id="nextStep1">Próximo</button>
+                    </div>
+                </div>
+                
+                <!-- Passo 2: Informações de Contato -->
+                <div class="form-step" id="formStep2">
+                    <div class="form-group">
+                        <label for="email">E-mail *</label>
+                        <div class="input-container">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" placeholder="seu.email@exemplo.com" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Telefone *</label>
+                        <div class="input-container">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="phone" placeholder="+258..." required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="country">País *</label>
+                        <div class="input-container">
+                            <i class="fas fa-globe"></i>
+                            <select id="country" required>
+                                <option value="">Selecione seu país</option>
+                                <option value="MZ" selected>Moçambique</option>
+                            </select>
+                            <div class="select-arrow">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-buttons">
+                        <button type="button" class="step-button prev" id="prevStep2">Voltar</button>
+                        <button type="button" class="step-button next" id="nextStep2">Próximo</button>
+                    </div>
+                </div>
+                
+                <!-- Passo 3: Segurança -->
+                <div class="form-step" id="formStep3">
+                    <div class="form-group">
+                        <label for="username">Nome de Usuário *</label>
+                        <div class="input-container">
+                            <i class="fas fa-at"></i>
+                            <input type="text" id="username" placeholder="Escolha um nome de usuário" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Senha *</label>
+                        <div class="input-container">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" placeholder="Crie uma senha forte" required>
+                            <button type="button" class="show-password" id="togglePassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="password-strength">
+                            <div class="strength-meter" id="strengthMeter"></div>
+                        </div>
+                        <div class="strength-text" id="strengthText">Força da senha</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirmar Senha *</label>
+                        <div class="input-container">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="confirmPassword" placeholder="Digite a senha novamente" required>
+                            <button type="button" class="show-password" id="toggleConfirmPassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div id="passwordMatch" class="strength-text"></div>
+                    </div>
+                    
+                    <div class="terms">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">Eu concordo com os <a href="#">Termos de Serviço</a> e <a href="#">Política de Privacidade</a> *</label>
+                    </div>
+                    
+                    <div class="step-buttons">
+                        <button type="button" class="step-button prev" id="prevStep3">Voltar</button>
+                        <button type="submit" class="register-button" id="registerButton">
+                            <span class="button-text">
+                                <i class="fas fa-user-plus"></i> Criar Conta
+                            </span>
+                            <div class="spinner" id="spinner"></div>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            
+            <div class="login-link">
+                Já tem uma conta? <a href="index.html" id="loginLinkBottom">Faça login</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuração da API
+        const API_BASE_URL = 'https://denuncias-backend-0vax.onrender.com';
+        
+        // Elementos do formulário multi-step
+        const steps = document.querySelectorAll('.step');
+        const formSteps = document.querySelectorAll('.form-step');
+        let currentStep = 0;
+        
+        // Botões de navegação
+        const nextStep1 = document.getElementById('nextStep1');
+        const nextStep2 = document.getElementById('nextStep2');
+        const prevStep2 = document.getElementById('prevStep2');
+        const prevStep3 = document.getElementById('prevStep3');
+        const registerButton = document.getElementById('registerButton');
+        const buttonText = document.querySelector('.button-text');
+        const spinner = document.getElementById('spinner');
+        
+        // Função para atualizar os passos
+        function updateSteps(step) {
+            // Atualizar indicadores de passo
+            steps.forEach((stepElement, index) => {
+                if (index === step) {
+                    stepElement.classList.add('active');
+                    stepElement.classList.remove('completed');
+                } else if (index < step) {
+                    stepElement.classList.remove('active');
+                    stepElement.classList.add('completed');
+                } else {
+                    stepElement.classList.remove('active');
+                    stepElement.classList.remove('completed');
+                }
+            });
+            
+            // Atualizar formulários visíveis
+            formSteps.forEach((formStep, index) => {
+                if (index === step) {
+                    formStep.classList.add('active');
+                } else {
+                    formStep.classList.remove('active');
+                }
+            });
+            
+            currentStep = step;
+        }
+        
+        // Navegação entre passos
+        nextStep1.addEventListener('click', () => {
+            if (validateStep1()) {
+                updateSteps(1);
+            }
+        });
+        
+        nextStep2.addEventListener('click', () => {
+            if (validateStep2()) {
+                updateSteps(2);
+            }
+        });
+        
+        prevStep2.addEventListener('click', () => {
+            updateSteps(0);
+        });
+        
+        prevStep3.addEventListener('click', () => {
+            updateSteps(1);
+        });
+        
+        // Validação do passo 1
+        function validateStep1() {
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const residenciaActual = document.getElementById('residenciaActual').value.trim();
+            const birthDate = document.getElementById('birthDate').value;
+            const localNascimento = document.getElementById('localNascimento').value.trim();
+            
+            if (!firstName || !lastName || !residenciaActual || !birthDate || !localNascimento) {
+                showMessage('Por favor, preencha todos os campos obrigatórios do passo 1.', 'error');
+                return false;
+            }
+            
+            // Validar data de nascimento (mínimo 13 anos)
+            const birth = new Date(birthDate);
+            const today = new Date();
+            let age = today.getFullYear() - birth.getFullYear();
+            const monthDiff = today.getMonth() - birth.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                age--;
+            }
+            
+            if (age < 13) {
+                showMessage('Você precisa ter pelo menos 13 anos para se cadastrar.', 'error');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // Validação do passo 2
+        function validateStep2() {
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const country = document.getElementById('country').value;
+            
+            if (!email || !phone || !country) {
+                showMessage('Por favor, preencha todos os campos obrigatórios do passo 2.', 'error');
+                return false;
+            }
+            
+            // Validar formato do e-mail
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showMessage('Por favor, insira um endereço de e-mail válido.', 'error');
+                return false;
+            }
+            
+            // Validar telefone (pelo menos 9 dígitos)
+            const phoneDigits = phone.replace(/\D/g, '');
+            if (phoneDigits.length < 9) {
+                showMessage('Por favor, insira um número de telefone válido (mínimo 9 dígitos).', 'error');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // Função para exibir mensagens
+        function showMessage(text, type = 'error') {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+            
+            // Esconder mensagem após 5 segundos para erros
+            if (type === 'error' || type === 'warning') {
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                }, 5000);
+            }
+            
+            // Scroll para a mensagem
+            messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        // Função para mostrar/ocultar loading
+        function setLoading(isLoading) {
+            if (isLoading) {
+                registerButton.disabled = true;
+                buttonText.style.opacity = '0.7';
+                spinner.style.display = 'block';
+            } else {
+                registerButton.disabled = false;
+                buttonText.style.opacity = '1';
+                spinner.style.display = 'none';
+            }
+        }
+        
+        // Função para salvar dados do usuário
+        function saveUserData(token, userData) {
+            try {
+                // Salvar token no localStorage
+                localStorage.setItem('auth_token', token);
+                
+                // Salvar dados do usuário
+                localStorage.setItem('user_data', JSON.stringify(userData));
+                
+                // Salvar tempo de expiração (24 horas)
+                const expiresAt = new Date();
+                expiresAt.setHours(expiresAt.getHours() + 24);
+                localStorage.setItem('token_expires', expiresAt.toISOString());
+                
+                console.log('Dados do usuário salvos com sucesso');
+            } catch (error) {
+                console.error('Erro ao salvar dados do usuário:', error);
+            }
+        }
+        
+        // Alternar visibilidade da senha
+        const togglePassword = document.getElementById('togglePassword');
+        const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            const eyeIcon = this.querySelector('i');
+            eyeIcon.classList.toggle('fa-eye');
+            eyeIcon.classList.toggle('fa-eye-slash');
+        });
+        
+        toggleConfirmPassword.addEventListener('click', function() {
+            const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPasswordInput.setAttribute('type', type);
+            
+            const eyeIcon = this.querySelector('i');
+            eyeIcon.classList.toggle('fa-eye');
+            eyeIcon.classList.toggle('fa-eye-slash');
+        });
+        
+        // Verificador de força da senha
+        passwordInput.addEventListener('input', function() {
+            checkPasswordStrength(this.value);
+            checkPasswordMatch();
+        });
+        
+        confirmPasswordInput.addEventListener('input', checkPasswordMatch);
+        
+        function checkPasswordStrength(password) {
+            const meter = document.getElementById('strengthMeter');
+            const text = document.getElementById('strengthText');
+            
+            let strength = 0;
+            let color = '#e74c3c';
+            let message = 'Muito fraca';
+            
+            // Verificar comprimento
+            if (password.length >= 8) strength++;
+            if (password.length >= 12) strength++;
+            
+            // Verificar caracteres minúsculos e maiúsculos
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            
+            // Verificar números
+            if (/\d/.test(password)) strength++;
+            
+            // Verificar caracteres especiais
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+            
+            // Atualizar medidor e texto
+            switch(strength) {
+                case 0:
+                case 1:
+                    color = '#e74c3c';
+                    message = 'Muito fraca';
+                    break;
+                case 2:
+                    color = '#e67e22';
+                    message = 'Fraca';
+                    break;
+                case 3:
+                    color = '#f1c40f';
+                    message = 'Média';
+                    break;
+                case 4:
+                    color = '#2ecc71';
+                    message = 'Forte';
+                    break;
+                case 5:
+                    color = '#27ae60';
+                    message = 'Muito forte';
+                    break;
+            }
+            
+            meter.style.width = (strength * 20) + '%';
+            meter.style.backgroundColor = color;
+            text.textContent = message;
+            text.style.color = color;
+        }
+        
+        function checkPasswordMatch() {
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            const matchText = document.getElementById('passwordMatch');
+            
+            if (confirmPassword === '') {
+                matchText.textContent = '';
+                return;
+            }
+            
+            if (password === confirmPassword) {
+                matchText.textContent = 'Senhas coincidem';
+                matchText.style.color = '#27ae60';
+            } else {
+                matchText.textContent = 'Senhas não coincidem';
+                matchText.style.color = '#e74c3c';
+            }
+        }
+        
+        // Validação do formulário completo
+        const registerForm = document.getElementById('registerForm');
+        
+        registerForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Validar passo 3
+            const username = document.getElementById('username').value.trim();
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            const terms = document.getElementById('terms').checked;
+            
+            // Limpar mensagem anterior
+            const messageDiv = document.getElementById('message');
+            messageDiv.style.display = 'none';
+            messageDiv.className = 'message';
+            
+            // Validações finais
+            if (!username || !password || !confirmPassword) {
+                showMessage('Por favor, preencha todos os campos obrigatórios do passo 3.', 'error');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showMessage('As senhas não coincidem. Por favor, verifique.', 'error');
+                return;
+            }
+            
+            if (password.length < 8) {
+                showMessage('A senha deve ter pelo menos 8 caracteres.', 'error');
+                return;
+            }
+            
+            if (!terms) {
+                showMessage('Você precisa aceitar os Termos de Serviço e Política de Privacidade.', 'error');
+                return;
+            }
+            
+            // Mostrar loading
+            setLoading(true);
+            
+            try {
+                // Coletar todos os dados do formulário
+                const nome = document.getElementById('firstName').value.trim();
+                const apelido = document.getElementById('lastName').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const senha = password;
+                const localNascimento = document.getElementById('localNascimento').value.trim();
+                const residenciaActual = document.getElementById('residenciaActual').value.trim();
+                const genero = document.getElementById('gender').value || 'PREFIRO_NAO_INFORMAR';
+                const dataNascimento = document.getElementById('birthDate').value;
+                const telefone = document.getElementById('phone').value.replace(/\D/g, '');
+              /*  const token = localStorage.getItem('auth_token'); */
+               /* print(token) */
+
+                const formData = {
+                    email: email,
+                    senha: senha,
+                    nome: nome,
+                    apelido: apelido,
+                    local_nascimento: localNascimento,
+                    residenciaActual: residenciaActual,
+                    genero: genero,
+                    data_nascimento: dataNascimento,
+                    contacto: telefone,
+                  /*  token:token, */
+                    perfil: "usuario"
+                };
+                
+                console.log('Enviando dados para API:', formData);
+                
+                // Fazer requisição para a API de registro
+                const response = await fetch(`${API_BASE_URL}/auth/register-usuario`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const responseText = await response.text();
+                let data;
+                
+                try {
+                    data = JSON.parse(responseText);
+                } catch {
+                    console.error('Resposta não é JSON válido:', responseText);
+                    showMessage('Erro no servidor. Tente novamente.', 'error');
+                    setLoading(false);
+                    return;
+                }
+                
+                console.log('API Response:', { status: response.status, data: data });
+                
+                // Status 200 OK ou 201 Created são ambos sucesso!
+                if (response.status === 200 || response.status === 201) {
+                    showMessage('✅ Conta criada com sucesso! Redirecionando para login...', 'success');
+                    
+                    // Extrair token da resposta
+                    let token = null;
+                    let userData = null;
+                    
+                    if (data.access_token) {
+                        token = data.access_token;
+                        userData = {
+                            email: email,
+                            nome: nome,
+                            apelido: apelido,
+                            ...data.user
+                        };
+                    } else if (data.token) {
+                        token = data.token;
+                        userData = data.user || { 
+                            email: email,
+                            nome: nome,
+                            apelido: apelido
+                        };
+                    }
+                    
+                    if (token) {
+                        // Salvar dados do usuário
+                        saveUserData(token, userData);
+                        
+                        // Limpar formulário
+                        registerForm.reset();
+                        updateSteps(0);
+                        checkPasswordStrength('');
+                        checkPasswordMatch();
+                        
+                        // Redirecionar para formulário após 2 segundos
+                        setTimeout(() => {
+                            window.location.href = 'formulario.html';
+                        }, 2000);
+                    } else {
+                        // Login automático após cadastro
+                        showMessage('✅ Conta criada com sucesso! Faça login para continuar.', 'success');
+                        
+                        // Limpar formulário
+                        registerForm.reset();
+                        updateSteps(0);
+                        checkPasswordStrength('');
+                        checkPasswordMatch();
+                        
+                        // Redirecionar para login após 3 segundos
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 3000);
+                    }
+                    
+                } else {
+                    // Erro no cadastro
+                    const errorMsg = data.message || data.error || 'Erro ao criar conta. Tente novamente.';
+                    showMessage(`❌ ${errorMsg}`, 'error');
+                    setLoading(false);
+                }
+                
+            } catch (error) {
+                console.error('Erro no cadastro:', error);
+                
+                if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+                    showMessage('❌ Não foi possível conectar ao servidor. Verifique a conexão.', 'error');
+                } else {
+                    showMessage(`❌ Erro: ${error.message}`, 'error');
+                }
+                
+                setLoading(false);
+            }
+        });
+        
+        // Link para login
+        document.getElementById('loginLinkBottom').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'index.html';
+        });
+        
+        // Link no painel esquerdo
+        document.getElementById('loginLinkLeft').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'index.html';
+        });
+        
+        // Configurar data de nascimento máxima (hoje - 13 anos)
+        const today = new Date();
+        const minDate = new Date();
+        minDate.setFullYear(today.getFullYear() - 100); // 100 anos atrás
+        const maxDate = new Date();
+        maxDate.setFullYear(today.getFullYear() - 13); // Mínimo 13 anos
+        
+        document.getElementById('birthDate').min = minDate.toISOString().split('T')[0];
+        document.getElementById('birthDate').max = maxDate.toISOString().split('T')[0];
+        
+        // Definir data padrão (18 anos atrás)
+        const defaultDate = new Date();
+        defaultDate.setFullYear(today.getFullYear() - 18);
+        document.getElementById('birthDate').value = defaultDate.toISOString().split('T')[0];
+        
+        // Formatação automática do telefone
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let value = e.target.value;
+            
+            // Remover tudo que não é número
+            let numbers = value.replace(/\D/g, '');
+            
+            // Formatar para +258 XX XXX XXXX (Moçambique)
+            if (numbers.startsWith('258')) {
+                numbers = numbers.substring(3);
+            }
+            
+            // Limitar a 9 dígitos (Moçambique)
+            numbers = numbers.substring(0, 9);
+            
+            // Formatar
+            if (numbers.length > 0) {
+                value = '+258 ';
+                if (numbers.length <= 2) {
+                    value += numbers;
+                } else if (numbers.length <= 5) {
+                    value += numbers.substring(0, 2) + ' ' + numbers.substring(2);
+                } else if (numbers.length <= 8) {
+                    value += numbers.substring(0, 2) + ' ' + numbers.substring(2, 5) + ' ' + numbers.substring(5);
+                } else {
+                    value += numbers.substring(0, 2) + ' ' + numbers.substring(2, 5) + ' ' + numbers.substring(5, 8) + ' ' + numbers.substring(8);
+                }
+            } else {
+                value = '+258 ';
+            }
+            
+            e.target.value = value;
+        });
+        
+        // Verificar se já está autenticado
+        window.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('auth_token');
+            const expiresAt = localStorage.getItem('token_expires');
+            
+            if (token && expiresAt) {
+                const now = new Date();
+                const expires = new Date(expiresAt);
+                
+                if (now < expires) {
+                    // Token ainda válido, redirecionar para dashboard
+                    console.log('Usuário já autenticado, redirecionando...');
+                    // window.location.href = '/dashboard.html';
+                } else {
+                    // Token expirado, limpar
+                    localStorage.removeItem('auth_token');
+                    localStorage.removeItem('token_expires');
+                    localStorage.removeItem('user_data');
+                }
+            }
+        });
+        
+        // Inicializar verificador de senha
+        passwordInput.dispatchEvent(new Event('input'));
+    </script>
+</body>
+</html>
