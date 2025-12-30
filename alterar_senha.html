@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alterar Senha</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 40px 35px;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .password-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .password-container input {
+            width: 100%;
+            padding: 14px 45px 14px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .password-container input:focus {
+            outline: none;
+            border-color: #0d6efd;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+        }
+
+        .password-container input.error {
+            border-color: #dc3545;
+        }
+
+        .password-container input.success {
+            border-color: #28a745;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: #666;
+            width: auto;
+            padding: 5px;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toggle-password:hover {
+            color: #0d6efd;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            position: relative;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        button[type="submit"]:hover:not(:disabled) {
+            background: linear-gradient(135deg, #0b5ed7 0%, #0a58ca 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+        }
+
+        button[type="submit"]:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        button[type="submit"]:disabled {
+            background: #9aa0a6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .button-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .message.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e1e5e9;
+        }
+
+        .back-link a {
+            color: #0d6efd;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-link a:hover {
+            color: #0b5ed7;
+            text-decoration: underline;
+        }
+
+        .password-strength {
+            margin-top: 5px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            height: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .password-strength.show {
+            height: 20px;
+            opacity: 1;
+        }
+
+        .strength-bar {
+            flex: 1;
+            height: 4px;
+            background: #e9ecef;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .strength-fill {
+            height: 100%;
+            width: 0%;
+            background: #dc3545;
+            transition: all 0.3s ease;
+        }
+
+        .strength-fill.weak {
+            width: 33%;
+            background: #dc3545;
+        }
+
+        .strength-fill.medium {
+            width: 66%;
+            background: #ffc107;
+        }
+
+        .strength-fill.strong {
+            width: 100%;
+            background: #28a745;
+        }
+
+        .requirements {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .requirement {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 5px;
+        }
+
+        .requirement:last-child {
+            margin-bottom: 0;
+        }
+
+        .requirement i {
+            font-size: 10px;
+        }
+
+        .requirement.valid {
+            color: #28a745;
+        }
+
+        .requirement.invalid {
+            color: #dc3545;
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 30px 25px;
+            }
+            
+            h2 {
+                font-size: 24px;
+            }
+            
+            button[type="submit"] {
+                padding: 14px;
+            }
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            width: 120px;
+            height: auto;
+            max-width: 100%;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .logo {
+                width: 80px;
+            }
+        }
+    </style>
+
+    <!-- Ícones para os requisitos -->
+    <style>
+        .icon-check::before {
+            content: "✓";
+        }
+        
+        .icon-cross::before {
+            content: "✗";
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <div class="login-header">
+        <img src="logo_alo_transito.png" alt="Alo Trânsito" class="logo">
+        <h2>Alterar Senha</h2>
+    </div>
+    
+    <form id="changePasswordForm">
+        <div class="password-container">
+            <input type="password" id="senhaActual" placeholder="Senha atual" required 
+                   aria-label="Senha atual" autocomplete="current-password">
+            <button type="button" class="toggle-password" 
+                    data-target="senhaActual" aria-label="Mostrar senha">👁️</button>
+        </div>
+
+        <div class="password-container">
+            <input type="password" id="novaSenha" placeholder="Nova senha" required 
+                   aria-label="Nova senha" autocomplete="new-password">
+            <button type="button" class="toggle-password" 
+                    data-target="novaSenha" aria-label="Mostrar senha">👁️</button>
+            
+            <!-- Barra de força da senha -->
+            <div class="password-strength" id="passwordStrength">
+                <span id="strengthText">Força:</span>
+                <div class="strength-bar">
+                    <div class="strength-fill" id="strengthFill"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="password-container">
+            <input type="password" id="confirmarSenha" placeholder="Confirmar nova senha" required 
+                   aria-label="Confirmar nova senha" autocomplete="new-password">
+            <button type="button" class="toggle-password" 
+                    data-target="confirmarSenha" aria-label="Mostrar senha">👁️</button>
+        </div>
+
+        <!-- Requisitos da senha -->
+        <div class="requirements" id="passwordRequirements">
+            <div class="requirement invalid" id="reqLength">
+                <i class="icon-cross"></i>
+                <span>Pelo menos 8 caracteres</span>
+            </div>
+            <div class="requirement invalid" id="reqUpper">
+                <i class="icon-cross"></i>
+                <span>Pelo menos uma letra maiúscula</span>
+            </div>
+            <div class="requirement invalid" id="reqLower">
+                <i class="icon-cross"></i>
+                <span>Pelo menos uma letra minúscula</span>
+            </div>
+            <div class="requirement invalid" id="reqNumber">
+                <i class="icon-cross"></i>
+                <span>Pelo menos um número</span>
+            </div>
+            <div class="requirement invalid" id="reqSpecial">
+                <i class="icon-cross"></i>
+                <span>Pelo menos um caractere especial</span>
+            </div>
+        </div>
+
+        <button type="submit" id="submitButton">
+            <div class="button-content">
+                <span class="button-text">Alterar Senha</span>
+                <span class="spinner" id="spinner"></span>
+            </div>
+        </button>
+        
+        <div class="message" id="message"></div>
+
+        <div class="back-link">
+            <a href="index.html">
+                <span>←</span>
+                Voltar para o index
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+    // ==================== CONFIGURAÇÃO ====================
+    // USE A MESMA API DO SEU LOGIN
+    const API_BASE_URL = 'http://192.168.100.226:3000';
+    // OU const API_BASE_URL = 'https://denuncias-backend-0vax.onrender.com';
+    
+    // ==================== FUNÇÕES DE AUTENTICAÇÃO (IGUAIS AO SEU LOGIN) ====================
+    
+    function getAuthToken() {
+        return localStorage.getItem('auth_token');
+    }
+    
+    function checkAuthentication() {
+        const token = localStorage.getItem('auth_token');
+        const expiresAt = localStorage.getItem('token_expires');
+        
+        if (!token || !expiresAt) {
+            return false;
+        }
+        
+        const now = new Date();
+        const expires = new Date(expiresAt);
+        
+        if (now >= expires) {
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('token_expires');
+            localStorage.removeItem('user_data');
+            return false;
+        }
+        
+        return true;
+    }
+    
+    function getUserData() {
+        const userData = localStorage.getItem('user_data');
+        return userData ? JSON.parse(userData) : null;
+    }
+    
+    // ==================== INICIALIZAÇÃO ====================
+    
+    // Verificar autenticação ao carregar a página
+    document.addEventListener('DOMContentLoaded', () => {
+        if (!checkAuthentication()) {
+            showMessage('Você precisa estar logado para alterar a senha.', 'error');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
+            return;
+        }
+        
+        // Foco no primeiro campo
+        senhaActualInput.focus();
+        
+        // Debug
+        console.log('✅ Usuário autenticado');
+        console.log('🔑 Token:', getAuthToken() ? 'Presente' : 'Ausente');
+        console.log('👤 Dados do usuário:', getUserData());
+    });
+    
+    // ==================== VARIÁVEIS ELEMENTOS ====================
+    
+    // Estado da aplicação
+    let isSubmitting = false;
+    let passwordStrength = 0;
+
+    // Elementos DOM
+    const form = document.getElementById('changePasswordForm');
+    const senhaActualInput = document.getElementById('senhaActual');
+    const novaSenhaInput = document.getElementById('novaSenha');
+    const confirmarSenhaInput = document.getElementById('confirmarSenha');
+    const submitButton = document.getElementById('submitButton');
+    const buttonText = submitButton.querySelector('.button-text');
+    const spinner = document.getElementById('spinner');
+    const message = document.getElementById('message');
+    const passwordStrengthEl = document.getElementById('passwordStrength');
+    const strengthFill = document.getElementById('strengthFill');
+    const strengthText = document.getElementById('strengthText');
+
+    // Requisitos da senha
+    const requirements = {
+        length: document.getElementById('reqLength'),
+        upper: document.getElementById('reqUpper'),
+        lower: document.getElementById('reqLower'),
+        number: document.getElementById('reqNumber'),
+        special: document.getElementById('reqSpecial')
+    };
+
+    // ==================== FUNÇÕES DE UI ====================
+    
+    // Toggle para mostrar/ocultar senha
+    document.querySelectorAll('.toggle-password').forEach(button => {
+        button.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const input = document.getElementById(targetId);
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            const label = type === 'password' ? 'Mostrar senha' : 'Ocultar senha';
+            
+            input.setAttribute('type', type);
+            this.setAttribute('aria-label', label);
+            this.textContent = type === 'password' ? '👁️' : '🙈';
+        });
+    });
+
+    // Validação da força da senha em tempo real
+    novaSenhaInput.addEventListener('input', function() {
+        const password = this.value;
+        checkPasswordStrength(password);
+        validatePasswordRequirements(password);
+    });
+
+    // Validação da confirmação de senha em tempo real
+    confirmarSenhaInput.addEventListener('input', function() {
+        const novaSenha = novaSenhaInput.value;
+        const confirmarSenha = this.value;
+        
+        if (confirmarSenha && novaSenha) {
+            if (confirmarSenha !== novaSenha) {
+                this.classList.add('error');
+                this.classList.remove('success');
+            } else {
+                this.classList.remove('error');
+                this.classList.add('success');
+            }
+        } else {
+            this.classList.remove('error', 'success');
+        }
+    });
+
+    // Validação da senha atual
+    senhaActualInput.addEventListener('input', function() {
+        if (this.value) {
+            this.classList.remove('error');
+        }
+    });
+
+    // Função para verificar força da senha
+    function checkPasswordStrength(password) {
+        let strength = 0;
+        
+        // Comprimento mínimo
+        if (password.length >= 8) strength++;
+        if (password.length >= 12) strength++;
+        
+        // Diversidade de caracteres
+        if (/[A-Z]/.test(password)) strength++;
+        if (/[a-z]/.test(password)) strength++;
+        if (/\d/.test(password)) strength++;
+        if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength++;
+        
+        // Atualizar interface
+        passwordStrength = strength;
+        
+        if (password.length > 0) {
+            passwordStrengthEl.classList.add('show');
+            
+            let strengthClass = 'weak';
+            let strengthLabel = 'Fraca';
+            
+            if (strength >= 5) {
+                strengthClass = 'strong';
+                strengthLabel = 'Forte';
+            } else if (strength >= 3) {
+                strengthClass = 'medium';
+                strengthLabel = 'Média';
+            }
+            
+            strengthFill.className = 'strength-fill ' + strengthClass;
+            strengthText.textContent = `Força: ${strengthLabel}`;
+        } else {
+            passwordStrengthEl.classList.remove('show');
+        }
+    }
+
+    // Função para validar requisitos da senha
+    function validatePasswordRequirements(password) {
+        const checks = {
+            length: password.length >= 8,
+            upper: /[A-Z]/.test(password),
+            lower: /[a-z]/.test(password),
+            number: /\d/.test(password),
+            special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+        };
+        
+        // Atualizar cada requisito
+        Object.keys(checks).forEach(key => {
+            const element = requirements[key];
+            const isValid = checks[key];
+            
+            element.classList.toggle('valid', isValid);
+            element.classList.toggle('invalid', !isValid);
+            
+            const icon = element.querySelector('i');
+            icon.className = isValid ? 'icon-check' : 'icon-cross';
+        });
+    }
+
+    // Função para mostrar mensagem
+    function showMessage(text, type = 'info') {
+        message.textContent = text;
+        message.className = `message ${type} show`;
+        
+        // Auto-remover mensagens de sucesso após 5 segundos
+        if (type === 'success') {
+            setTimeout(() => {
+                message.classList.remove('show');
+                setTimeout(() => {
+                    message.textContent = '';
+                    message.className = 'message';
+                }, 300);
+            }, 5000);
+        }
+    }
+
+    // Função para definir estado de loading
+    function setLoading(isLoading) {
+        if (isLoading) {
+            buttonText.style.opacity = '0.7';
+            spinner.style.display = 'block';
+            submitButton.disabled = true;
+            isSubmitting = true;
+        } else {
+            buttonText.style.opacity = '1';
+            spinner.style.display = 'none';
+            submitButton.disabled = false;
+            isSubmitting = false;
+        }
+    }
+
+    // ==================== VALIDAÇÃO DO FORMULÁRIO ====================
+    
+    function validateForm() {
+        const senhaActual = senhaActualInput.value.trim();
+        const novaSenha = novaSenhaInput.value.trim();
+        const confirmarSenha = confirmarSenhaInput.value.trim();
+        
+        // Limpar mensagens anteriores
+        message.textContent = '';
+        message.className = 'message';
+        
+        // Validar campos obrigatórios
+        if (!senhaActual || !novaSenha || !confirmarSenha) {
+            showMessage('Todos os campos são obrigatórios', 'error');
+            return false;
+        }
+        
+        // Validar se a nova senha é diferente da atual
+        if (senhaActual === novaSenha) {
+            showMessage('A nova senha deve ser diferente da senha atual', 'error');
+            return false;
+        }
+        
+        // Validar força da senha
+        if (passwordStrength < 3) {
+            showMessage('A senha é muito fraca. Por favor, escolha uma senha mais forte.', 'error');
+            return false;
+        }
+        
+        // Validar se as senhas coincidem
+        if (novaSenha !== confirmarSenha) {
+            showMessage('As senhas não coincidem', 'error');
+            return false;
+        }
+        
+        // Validar todos os requisitos da senha
+        const checks = {
+            length: novaSenha.length >= 8,
+            upper: /[A-Z]/.test(novaSenha),
+            lower: /[a-z]/.test(novaSenha),
+            number: /\d/.test(novaSenha),
+            special: /[!@#$%^&*(),.?":{}|<>]/.test(novaSenha)
+        };
+        
+        const allValid = Object.values(checks).every(check => check);
+        if (!allValid) {
+            showMessage('A senha não atende a todos os requisitos', 'error');
+            return false;
+        }
+        
+        return true;
+    }
+
+    // ==================== ENVIO DO FORMULÁRIO ====================
+    
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        
+        // Prevenir múltiplos envios
+        if (isSubmitting) return;
+        
+        // Verificar autenticação novamente
+        if (!checkAuthentication()) {
+            showMessage('Sua sessão expirou. Faça login novamente.', 'error');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
+            return;
+        }
+        
+        // Validar formulário
+        if (!validateForm()) return;
+        
+        const senhaActual = senhaActualInput.value;
+        const novaSenha = novaSenhaInput.value;
+        
+        // Ativar loading
+        setLoading(true);
+        
+        try {
+            console.log('🔐 Enviando solicitação de alteração de senha');
+            
+            // Obter token de autenticação
+            const token = getAuthToken();
+            const userData = getUserData();
+            
+            if (!token) {
+                throw new Error('Token de autenticação não encontrado');
+            }
+            
+            // TENTAR DIFERENTES ENDPOINTS PARA ALTERAÇÃO DE SENHA
+            let response;
+            let success = false;
+            
+            // Tenta primeiro endpoint comum
+            try {
+                response = await fetch(`${API_BASE_URL}/auth/alterar-senha`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        senhaActual: senhaActual,
+                        novaSenha: novaSenha
+                    })
+                });
+                
+                console.log('📊 Status da resposta (/auth/alterar-senha):', response.status);
+                
+                if (response.ok) {
+                    success = true;
+                } else {
+                    throw new Error('Endpoint 1 falhou');
+                }
+                
+            } catch (firstError) {
+                console.log('Primeiro endpoint falhou, tentando alternativo...');
+                
+                // Tenta endpoint alternativo
+                try {
+                    response = await fetch(`${API_BASE_URL}/auth/alterar-senha`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            senhaActual: senhaActual,
+                            novaSenha: novaSenha
+                        })
+                    });
+                    
+                    console.log('📊 Status da resposta (/auth/alterar-senha):', response.status);
+                    
+                    if (response.ok) {
+                        success = true;
+                    } else {
+                        throw new Error('Endpoint 2 falhou');
+                    }
+                    
+                } catch (secondError) {
+                    console.log('Segundo endpoint falhou, tentando terceiro...');
+                    
+                    // Tenta terceira opção (sem token no header, mas com token no body)
+                    response = await fetch(`${API_BASE_URL}/auth/alterar-senha`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            token: token,
+                            senhaActual: senhaActual,
+                            novaSenha: novaSenha
+                        })
+                    });
+                    
+                    console.log('📊 Status da resposta (/auth/update-password):', response.status);
+                    
+                    if (response.ok) {
+                        success = true;
+                    } else {
+                        throw new Error('Todos os endpoints falharam');
+                    }
+                }
+            }
+            
+            if (success) {
+                // Processar resposta
+                const data = await response.json();
+                
+                // Sucesso
+                showMessage('✅ Senha alterada com sucesso! Você será redirecionado em 5 segundos...', 'success');
+                
+                // Limpar formulário
+                senhaActualInput.value = '';
+                novaSenhaInput.value = '';
+                confirmarSenhaInput.value = '';
+                
+                // Limpar validações visuais
+                senhaActualInput.classList.remove('error', 'success');
+                novaSenhaInput.classList.remove('error', 'success');
+                confirmarSenhaInput.classList.remove('error', 'success');
+                
+                // Resetar força da senha
+                passwordStrengthEl.classList.remove('show');
+                Object.values(requirements).forEach(el => {
+                    el.classList.remove('valid');
+                    el.classList.add('invalid');
+                    const icon = el.querySelector('i');
+                    icon.className = 'icon-cross';
+                });
+                
+                // Se a API retornou um novo token, atualiza
+                if (data.token || data.access_token) {
+                    const newToken = data.token || data.access_token;
+                    localStorage.setItem('auth_token', newToken);
+                    
+                    const expiresAt = new Date();
+                    expiresAt.setHours(expiresAt.getHours() + 24);
+                    localStorage.setItem('token_expires', expiresAt.toISOString());
+                    
+                    console.log('🔄 Token atualizado após alteração de senha');
+                }
+                
+                // Redirecionar após 5 segundos
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 5000);
+                
+            } else {
+                const errorData = await response.json();
+                const errorMsg = errorData.message || errorData.error || 'Erro ao alterar senha';
+                
+                // Tratamento de erros específicos
+                if (errorMsg.toLowerCase().includes('senha atual') || errorMsg.toLowerCase().includes('current password')) {
+                    showMessage('Senha atual incorreta', 'error');
+                    senhaActualInput.classList.add('error');
+                } else {
+                    showMessage(`❌ ${errorMsg}`, 'error');
+                }
+            }
+            
+        } catch (error) {
+            console.error('❌ Erro:', error);
+            
+            // Tratamento de erros de conexão
+            if (error.message.includes('Failed to fetch')) {
+                showMessage('❌ Não foi possível conectar ao servidor. Verifique sua conexão.', 'error');
+            } else if (error.message.includes('network') || !navigator.onLine) {
+                showMessage('❌ Erro de conexão. Verifique sua internet e tente novamente.', 'error');
+            } else {
+                showMessage(`❌ ${error.message}`, 'error');
+            }
+            
+        } finally {
+            // Desativar loading
+            setLoading(false);
+        }
+    });
+
+    // ==================== FUNÇÕES AUXILIARES ====================
+    
+    // Tecla Esc para limpar mensagem
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && message.textContent) {
+            message.classList.remove('show');
+            setTimeout(() => {
+                message.textContent = '';
+                message.className = 'message';
+            }, 300);
+        }
+    });
+    
+    // Prevenir saída sem salvar (opcional)
+    let formChanged = false;
+    
+    senhaActualInput.addEventListener('input', () => formChanged = true);
+    novaSenhaInput.addEventListener('input', () => formChanged = true);
+    confirmarSenhaInput.addEventListener('input', () => formChanged = true);
+    
+    window.addEventListener('beforeunload', (e) => {
+        if (formChanged && !isSubmitting) {
+            e.preventDefault();
+            e.returnValue = 'Você tem alterações não salvas. Deseja realmente sair?';
+        }
+    });
+    
+    // Link de voltar
+    document.querySelector('.back-link a').addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        if (formChanged && !isSubmitting) {
+            if (confirm('Você tem alterações não salvas. Deseja realmente sair?')) {
+                window.location.href = 'index.html';
+            }
+        } else {
+            window.location.href = 'index.html';
+        }
+    });
+</script>
+
+</body>
+</html>

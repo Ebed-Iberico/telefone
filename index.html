@@ -50,11 +50,11 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            background:  #ffffff;
+            background: #ffffff;
         }
 
         .login-box {
-            background:#ffffff;
+            background: #ffffff;
             border-radius: var(--radius);
             padding: 40px 30px;
             width: 100%;
@@ -220,6 +220,8 @@
             display: none;
             flex-direction: column;
             min-height: 100vh;
+            position: relative;
+            width: 100%;
         }
 
         /* HEADER */
@@ -301,9 +303,13 @@
 
         /* CONTEÚDO PRINCIPAL */
         .main-content {
-            padding: 20px 16px;
+            padding: 20px 16px 80px; /* Espaço para o navbar inferior */
             flex: 1;
-            padding-bottom: 80px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 160px); /* Altura total menos header */
+            overflow-y: auto;
         }
 
         .section-title {
@@ -491,9 +497,9 @@
             color: white;
         }
 
-        /* MENU INFERIOR */
+        /* MENU INFERIOR - FIXO DENTRO DO DASHBOARD */
         .bottom-nav {
-            position: fixed;
+            position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
@@ -504,6 +510,8 @@
             padding: 12px 0;
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
             z-index: 100;
+            border-radius: var(--radius) var(--radius) 0 0;
+            height: 70px;
         }
 
         .nav-item {
@@ -738,42 +746,58 @@
                 margin: 0 auto;
                 box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
                 min-height: 100vh;
+                position: relative;
+                border-radius: var(--radius);
+                overflow: hidden;
+                margin-top: 20px;
+                margin-bottom: 20px;
             }
             
             .app-header {
                 border-radius: 0;
             }
+            
+            .main-content {
+                border-radius: 0;
+                min-height: calc(100vh - 180px);
+            }
+            
+            .bottom-nav {
+                left: 0;
+                right: 0;
+                width: 100%;
+                margin: 0;
+                border-radius: 0;
+            }
         }
+        
         /* Ajuste o tamanho do logo */
-.login-header .logo {
-    width: 120px;          /* Largura máxima */
-    height: auto;          /* Altura proporcional */
-    max-width: 100%;       /* Não ultrapassa o container */
-    margin-bottom: 15px;   /* Espaço abaixo */
-}
+        .login-header .logo {
+            width: 120px;
+            height: auto;
+            max-width: 100%;
+            margin-bottom: 15px;
+        }
 
-/* Para centralizar */
-.login-header {
-    text-align: center;
-}
+        .login-header {
+            text-align: center;
+        }
 
-/* Para logo responsivo */
-@media (max-width: 768px) {
-    .login-header .logo {
-        width: 80px;       /* Menor em mobile */
-    }
-}
+        @media (max-width: 768px) {
+            .login-header .logo {
+                width: 80px;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- ========== TELA DE LOGIN ========== -->
     <div class="login-container" id="loginContainer">
-    <div class="login-box">
-        <div class="login-header">
-            <!-- Logo como imagem -->
-            <img src="logo_alo_transito.png" alt="telefone" class="logo">
-            <p>Faça login para acessar o sistema</p>
-        </div>
+        <div class="login-box">
+            <div class="login-header">
+                <img src="logo_alo_transito.png" alt="telefone" class="logo">
+                <p>Faça login para acessar o sistema</p>
+            </div>
             
             <div id="message" class="message"></div>
             
@@ -812,12 +836,11 @@
             </form>
 
             <div style="text-align: center; margin-top: 25px;">
-    <a href="cadastro_final.html" 
-       style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 15px;">
-        <i class="fas fa-user-plus"></i> Criar uma conta
-    </a>
-    
-</div>
+                <a href="cadastro_final.html" 
+                   style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 15px;">
+                    <i class="fas fa-user-plus"></i> Criar uma conta
+                </a>
+            </div>
             
             <div class="login-footer">
                 <p>© <span id="currentYear"></span> Sistema de Denúncias - Alo Trânsito</p>
@@ -851,7 +874,7 @@
         </header>
 
         <!-- CONTEÚDO PRINCIPAL -->
-        <main class="main-content">
+        <div class="main-content">
             <!-- SEÇÃO: VISÃO GERAL -->
             <section id="overview" class="tab-content active">
                 <div class="section-title">
@@ -1031,39 +1054,39 @@
                     </div>
                 </div>
                 
-                <div style="margin-top: 30px; text-align: center; font-size: 0.8rem; color: var(--text-muted);">
-                    <p>Versão 1.0.0</p>
-                    <p>© 2023 Alo Trânsito. Todos os direitos reservados.</p>
-                </div>
+                <div id="footerInfo" style="margin-top: 30px; text-align: center; font-size: 0.8rem; color: var(--text-muted);">
+    <p>Versão <span id="appVersion">1.0.0</span></p>
+    <p>© <span id="currentYear"></span> Alo Trânsito. Todos os direitos reservados.</p>
+</div>
             </section>
-        </main>
-
-        <!-- MENU INFERIOR -->
-        <nav class="bottom-nav">
-            <a href="#" class="nav-item active" data-tab="overview">
-                <i class="fas fa-home"></i>
-                <span>Início</span>
-            </a>
             
-            <a href="#" class="nav-item" data-tab="denuncias">
-                <i class="fas fa-list-alt"></i>
-                <span>Denúncias</span>
-            </a>
-            
-            <a href="#" class="nav-item add-btn" onclick="novaDenuncia()">
-                <i class="fas fa-plus"></i>
-            </a>
-            
-            <a href="#" class="nav-item" data-tab="estatisticas">
-                <i class="fas fa-chart-bar"></i>
-                <span>Estatísticas</span>
-            </a>
-            
-            <a href="#" class="nav-item" data-tab="configuracoes">
-                <i class="fas fa-cog"></i>
-                <span>Config</span>
-            </a>
-        </nav>
+            <!-- MENU INFERIOR - AGORA DENTRO DO MAIN-CONTENT -->
+            <nav class="bottom-nav">
+                <a href="#" class="nav-item active" data-tab="overview">
+                    <i class="fas fa-home"></i>
+                    <span>Início</span>
+                </a>
+                
+                <a href="#" class="nav-item" data-tab="denuncias">
+                    <i class="fas fa-list-alt"></i>
+                    <span>Denúncias</span>
+                </a>
+                
+                <a href="#" class="nav-item add-btn" onclick="novaDenuncia()">
+                    <i class="fas fa-plus"></i>
+                </a>
+                
+                <a href="#" class="nav-item" data-tab="estatisticas">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Estatísticas</span>
+                </a>
+                
+                <a href="#" class="nav-item" data-tab="configuracoes">
+                    <i class="fas fa-cog"></i>
+                    <span>Config</span>
+                </a>
+            </nav>
+        </div>
 
         <!-- MODAL DE DETALHES DA DENÚNCIA -->
         <div class="modal-overlay" id="denunciaModal">
@@ -1111,9 +1134,7 @@
 
     <script>
         // ==================== CONFIGURAÇÃO GLOBAL ====================
-        // ATUALIZE ESTE IP COM O SEU IP REAL
-        const API_BASE_URL = 'https://denuncias-backend-0vax.onrender.com';
-        
+        const API_BASE_URL = 'http://192.168.100.226:3000';
         // Elementos DOM principais
         const loginContainer = document.getElementById('loginContainer');
         const dashboardContainer = document.getElementById('dashboardContainer');
@@ -1964,11 +1985,11 @@
         }
         
         function editarPerfil() {
-            showMessage('Funcionalidade de edição de perfil em desenvolvimento.', 'success');
+            window.location.href = 'editar_perfil.html';
         }
         
         function alterarSenha() {
-            showMessage('Funcionalidade de alteração de senha em desenvolvimento.', 'success');
+            window.location.href = 'alterar_senha.html';
         }
         
         function configNotificacoes() {
@@ -2223,5 +2244,11 @@
             }
         });
     </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        document.getElementById('appVersion').textContent = '1.0.0';
+    });
+</script>
 </body>
 </html>

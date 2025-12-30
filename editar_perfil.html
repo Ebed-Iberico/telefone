@@ -1,0 +1,1736 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #4ba26f 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1000px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .left-panel {
+            flex: 1;
+            background: linear-gradient(to bottom right, #667eea, #764ba2);
+            color: white;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .profile-image-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .profile-image:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+        
+        .change-photo-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .change-photo-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .profile-stats {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .stat-value {
+            font-weight: 600;
+        }
+        
+        .left-panel h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .left-panel p {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .features {
+            list-style: none;
+        }
+        
+        .features li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .features i {
+            margin-right: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        .right-panel {
+            flex: 1.2;
+            padding: 50px 40px;
+            position: relative;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            font-size: 32px;
+            color: #667eea;
+            background-color: #f0f5ff;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-text h1 {
+            color: #333;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .logo-text p {
+            color: #777;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .input-container {
+            position: relative;
+        }
+        
+        .input-container i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+            padding-left: 15px;
+        }
+        
+        select {
+            appearance: none;
+            padding-right: 15px;
+            cursor: pointer;
+        }
+        
+        .select-arrow {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+            pointer-events: none;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+        }
+        
+        input:read-only {
+            background-color: #f9f9f9;
+            cursor: not-allowed;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        .badge-success {
+            background-color: #e6ffe6;
+            color: #008000;
+        }
+        
+        .badge-warning {
+            background-color: #fff8e6;
+            color: #cc8400;
+        }
+        
+        .form-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 25px;
+            overflow-x: auto;
+        }
+        
+        .tab-btn {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 500;
+            color: #777;
+            white-space: nowrap;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        
+        .tab-btn:hover:not(.active) {
+            color: #333;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .update-button {
+            width: 100%;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+            position: relative;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .update-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .update-button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+        
+        .update-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .back-link {
+            text-align: center;
+            font-size: 15px;
+            color: #555;
+        }
+        
+        .back-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .error {
+            background-color: #ffe6e6;
+            color: #c00;
+            border: 1px solid #ffb3b3;
+        }
+        
+        .success {
+            background-color: #e6ffe6;
+            color: #008000;
+            border: 1px solid #b3ffb3;
+        }
+        
+        .warning {
+            background-color: #fff8e6;
+            color: #cc8400;
+            border: 1px solid #ffdd99;
+        }
+        
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .button-text {
+            transition: opacity 0.3s;
+        }
+        
+        .account-status {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .status-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .status-label {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .verified-badge {
+            color: #28a745;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .change-password-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .change-password-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .change-password-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .last-updated {
+            font-size: 12px;
+            color: #888;
+            text-align: right;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                max-width: 500px;
+            }
+            
+            .left-panel {
+                padding: 30px;
+            }
+            
+            .right-panel {
+                padding: 30px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .form-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tab-btn {
+                flex: 1;
+                min-width: 120px;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .left-panel h2 {
+                font-size: 24px;
+            }
+            
+            .left-panel p {
+                font-size: 14px;
+            }
+            
+            .logo-text h1 {
+                font-size: 20px;
+            }
+            
+            input, select, textarea {
+                padding: 12px 12px 12px 40px;
+            }
+            
+            .profile-image {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="profile-image-container">
+                <img src="https://via.placeholder.com/150/667eea/ffffff?text=US" alt="Foto do Perfil" class="profile-image" id="profileImage">
+                <button class="change-photo-btn" id="changePhotoBtn">
+                    <i class="fas fa-camera"></i> Alterar Foto
+                </button>
+            </div>
+            
+            <h2 id="profileName">Carregando...</h2>
+            <p id="profileEmail">Carregando...</p>
+            
+            <ul class="features">
+                <li><i class="fas fa-check"></i> Informações pessoais atualizadas</li>
+                <li><i class="fas fa-check"></i> Contato sempre válido</li>
+                <li><i class="fas fa-check"></i> Preferências personalizadas</li>
+                <li><i class="fas fa-check"></i> Privacidade protegida</li>
+            </ul>
+            
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <span>Conta criada em:</span>
+                    <span class="stat-value" id="accountCreated">--/--/----</span>
+                </div>
+                <div class="stat-item">
+                    <span>Última atualização:</span>
+                    <span class="stat-value" id="lastUpdate">--/--/----</span>
+                </div>
+                <div class="stat-item">
+                    <span>Status da conta:</span>
+                    <span class="stat-value badge badge-success" id="accountStatus">Ativa</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="right-panel">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-user-edit"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>Editar Perfil</h1>
+                    <p>Atualize suas informações pessoais</p>
+                </div>
+            </div>
+            
+            <div class="account-status">
+                <div class="status-info">
+                    <div>
+                        <span class="status-label">Status do E-mail:</span>
+                        <span class="verified-badge" id="emailStatus">
+                            <i class="fas fa-check-circle"></i> Verificado
+                        </span>
+                    </div>
+                    <button class="change-photo-btn" id="verifyEmailBtn" style="font-size: 12px;">
+                        <i class="fas fa-envelope"></i> Reenviar verificação
+                    </button>
+                </div>
+            </div>
+            
+            <div class="form-tabs" id="formTabs">
+                <button class="tab-btn active" data-tab="tab1">Informações</button>
+                <button class="tab-btn" data-tab="tab2">Contato</button>
+                <button class="tab-btn" data-tab="tab3">Preferências</button>
+                <button class="tab-btn" data-tab="tab4">Segurança</button>
+            </div>
+            
+            <div id="message" class="message"></div>
+            
+            <form id="profileForm">
+                <!-- Aba 1: Informações Pessoais -->
+                <div class="tab-content active" id="tab1">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">Nome *</label>
+                            <div class="input-container">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="firstName" placeholder="Digite seu nome" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Sobrenome *</label>
+                            <div class="input-container">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="lastName" placeholder="Digite seu sobrenome" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="birthDate">Data de Nascimento *</label>
+                            <div class="input-container">
+                                <i class="fas fa-calendar"></i>
+                                <input type="date" id="birthDate" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Gênero</label>
+                            <div class="input-container">
+                                <i class="fas fa-venus-mars"></i>
+                                <select id="gender">
+                                    <option value="">Selecione</option>
+                                    <option value="MASCULINO">Masculino</option>
+                                    <option value="FEMININO">Feminino</option>
+                                    <option value="OUTRO">Outro</option>
+                                    <option value="PREFIRO_NAO_INFORMAR">Prefiro não informar</option>
+                                </select>
+                                <div class="select-arrow">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="localNascimento">Local de Nascimento *</label>
+                        <div class="input-container">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text" id="localNascimento" placeholder="Cidade/Província de nascimento" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="residenciaActual">Residência Atual *</label>
+                        <div class="input-container">
+                            <i class="fas fa-home"></i>
+                            <input type="text" id="residenciaActual" placeholder="Endereço completo" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bio">Biografia <span style="font-size: 12px; color: #777;">(opcional)</span></label>
+                        <textarea id="bio" placeholder="Conte um pouco sobre você..."></textarea>
+                    </div>
+                </div>
+                
+                <!-- Aba 2: Contato -->
+                <div class="tab-content" id="tab2">
+                    <div class="form-group">
+                        <label for="email">E-mail * <span class="badge badge-success">Verificado</span></label>
+                        <div class="input-container">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" placeholder="seu.email@exemplo.com" required readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Telefone *</label>
+                        <div class="input-container">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="phone" placeholder="+258..." required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="country">País *</label>
+                            <div class="input-container">
+                                <i class="fas fa-globe"></i>
+                                <select id="country" required>
+                                    <option value="">Selecione seu país</option>
+                                    <option value="MZ" selected>Moçambique</option>
+                                    <option value="BR">Brasil</option>
+                                    <option value="PT">Portugal</option>
+                                    <option value="AO">Angola</option>
+                                </select>
+                                <div class="select-arrow">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="city">Cidade</label>
+                            <div class="input-container">
+                                <i class="fas fa-city"></i>
+                                <input type="text" id="city" placeholder="Sua cidade">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="emergencyContact">Contato de Emergência</label>
+                        <div class="input-container">
+                            <i class="fas fa-phone-alt"></i>
+                            <input type="tel" id="emergencyContact" placeholder="Telefone para emergências">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Aba 3: Preferências -->
+                <div class="tab-content" id="tab3">
+                    <div class="form-group">
+                        <label for="language">Idioma Preferido</label>
+                        <div class="input-container">
+                            <i class="fas fa-language"></i>
+                            <select id="language">
+                                <option value="pt">Português</option>
+                                <option value="en">Inglês</option>
+                                <option value="es">Espanhol</option>
+                                <option value="fr">Francês</option>
+                            </select>
+                            <div class="select-arrow">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="theme">Tema da Interface</label>
+                        <div class="input-container">
+                            <i class="fas fa-palette"></i>
+                            <select id="theme">
+                                <option value="light">Claro</option>
+                                <option value="dark">Escuro</option>
+                                <option value="auto">Automático (sistema)</option>
+                            </select>
+                            <div class="select-arrow">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notifications">Notificações</label>
+                        <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 5px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                                <span>E-mail</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="notifyEmail" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                                <span>Notificações no site</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="notifySite" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <span>Novidades e ofertas</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="notifyPromo">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Privacidade</label>
+                        <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 5px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                                <span>Perfil público</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="privacyPublic">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <span>Mostrar e-mail publicamente</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="privacyEmail">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Aba 4: Segurança -->
+                <div class="tab-content" id="tab4">
+                    <div class="account-status">
+                        <div class="status-info">
+                            <div>
+                                <span class="status-label">Sessão Ativa:</span>
+                                <span id="sessionTime">Agora mesmo</span>
+                            </div>
+                            <button type="button" class="change-photo-btn" id="logoutOtherBtn" style="font-size: 12px;">
+                                <i class="fas fa-sign-out-alt"></i> Encerrar outras sessões
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="change-password-link">
+                        <a href="alterar-senha.html" id="changePasswordLink">
+                            <i class="fas fa-key"></i> Alterar senha
+                        </a>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Autenticação de Dois Fatores (2FA)</label>
+                        <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 5px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                                <div>
+                                    <div style="font-weight: 600;">Proteção adicional</div>
+                                    <div style="font-size: 13px; color: #666;">Adicione uma camada extra de segurança à sua conta</div>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="twoFactorAuth">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div id="twoFactorInfo" style="display: none; font-size: 13px; color: #666; margin-top: 10px;">
+                                <i class="fas fa-info-circle"></i> Quando ativado, será necessário um código adicional ao fazer login.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Atividade da Conta</label>
+                        <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 5px;">
+                            <div style="margin-bottom: 10px;">
+                                <div style="font-size: 14px; font-weight: 600;">Último login</div>
+                                <div style="font-size: 13px; color: #666;" id="lastLogin">--/--/---- às --:--</div>
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <div style="font-size: 14px; font-weight: 600;">IP atual</div>
+                                <div style="font-size: 13px; color: #666;" id="currentIP">Carregando...</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="deleteAccount">Excluir Conta</label>
+                        <div style="background-color: #fff8e6; padding: 15px; border-radius: 8px; margin-top: 5px; border: 1px solid #ffdd99;">
+                            <div style="margin-bottom: 10px;">
+                                <div style="font-weight: 600; color: #cc8400;">
+                                    <i class="fas fa-exclamation-triangle"></i> Ação irreversível
+                                </div>
+                                <div style="font-size: 13px; color: #996600; margin-top: 5px;">
+                                    Esta ação não pode ser desfeita. Todos os seus dados serão permanentemente removidos.
+                                </div>
+                            </div>
+                            <button type="button" class="change-photo-btn" id="deleteAccountBtn" style="background-color: #e74c3c; color: white; width: 100%;">
+                                <i class="fas fa-trash-alt"></i> Solicitar exclusão da conta
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <button type="submit" class="update-button" id="updateButton">
+                        <span class="button-text">
+                            <i class="fas fa-save"></i> Salvar Alterações
+                        </span>
+                        <div class="spinner" id="spinner"></div>
+                    </button>
+                </div>
+                
+                <div class="back-link">
+                    <a href="index.html" id="backLink">
+                        <i class="fas fa-arrow-left"></i>
+                        Voltar para o Dashboard
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Switch Toggle Styles -->
+    <style>
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #667eea;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+    </style>
+
+    <script>
+        // Configuração da API - USE A MESMA DO SEU LOGIN
+        const API_BASE_URL = 'http://192.168.100.226:3000';
+        // OU use: const API_BASE_URL = 'https://denuncias-backend-0vax.onrender.com';
+        
+        // ==================== VERIFICAÇÃO DE ELEMENTOS ====================
+        
+        // Elementos principais (com verificação)
+        const profileForm = document.getElementById('profileForm');
+        const updateButton = document.getElementById('updateButton');
+        const spinner = document.getElementById('spinner');
+        const message = document.getElementById('message');
+        const profileImage = document.getElementById('profileImage');
+        const changePhotoBtn = document.getElementById('changePhotoBtn');
+        const profileName = document.getElementById('profileName');
+        const profileEmail = document.getElementById('profileEmail');
+        
+        // Verificar se os elementos essenciais existem
+        if (!updateButton) {
+            console.error('❌ ERRO CRÍTICO: Elemento updateButton não encontrado no DOM!');
+            document.body.innerHTML = `
+                <div style="text-align: center; padding: 50px; color: #721c24; background: #f8d7da; border-radius: 10px; max-width: 500px; margin: auto;">
+                    <h2>Erro na página</h2>
+                    <p>Elementos necessários não foram encontrados. Recarregue a página.</p>
+                    <button onclick="window.location.reload()" style="margin-top: 20px; padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                        Recarregar Página
+                    </button>
+                </div>
+            `;
+            throw new Error('Elementos do DOM não encontrados');
+        }
+        
+        // Dados do usuário atual
+        let currentUserData = null;
+        
+        // ==================== FUNÇÕES DE AUTENTICAÇÃO (IGUAIS AO LOGIN) ====================
+        
+        function getAuthToken() {
+            return localStorage.getItem('auth_token');
+        }
+        
+        function checkAuthentication() {
+            const token = localStorage.getItem('auth_token');
+            const expiresAt = localStorage.getItem('token_expires');
+            
+            if (!token || !expiresAt) {
+                return false;
+            }
+            
+            const now = new Date();
+            const expires = new Date(expiresAt);
+            
+            if (now >= expires) {
+                localStorage.removeItem('auth_token');
+                localStorage.removeItem('token_expires');
+                localStorage.removeItem('user_data');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // Função para exibir mensagens
+        function showMessage(text, type = 'error') {
+            if (!message) {
+                console.error('❌ Elemento message não encontrado!');
+                alert(`${type.toUpperCase()}: ${text}`);
+                return;
+            }
+            
+            message.textContent = text;
+            message.className = `message ${type}`;
+            message.style.display = 'block';
+            
+            // Auto-esconder mensagens após alguns segundos
+            if (type === 'success') {
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 5000);
+            } else if (type === 'error') {
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 8000);
+            }
+        }
+        
+        // Função para mostrar/ocultar loading
+        function setLoading(isLoading) {
+            if (!updateButton || !spinner) {
+                console.error('❌ Elementos não encontrados para setLoading');
+                return;
+            }
+            
+            if (isLoading) {
+                updateButton.disabled = true;
+                const buttonText = updateButton.querySelector('.button-text');
+                if (buttonText) buttonText.style.opacity = '0.7';
+                if (spinner) spinner.style.display = 'block';
+            } else {
+                updateButton.disabled = false;
+                const buttonText = updateButton.querySelector('.button-text');
+                if (buttonText) buttonText.style.opacity = '1';
+                if (spinner) spinner.style.display = 'none';
+            }
+        }
+        
+        // ==================== CARREGAMENTO DE DADOS DO USUÁRIO ====================
+        
+        async function loadUserData() {
+            try {
+                // Verificar se está autenticado (usando a mesma função do login)
+                if (!checkAuthentication()) {
+                    showMessage('Sessão expirada. Faça login novamente.', 'error');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                    return;
+                }
+                
+                // Obter token (mesmo método do login)
+                const token = getAuthToken();
+                console.log('🔑 Token obtido:', token ? 'Sim' : 'Não');
+                
+                if (!token) {
+                    throw new Error('Token não encontrado');
+                }
+                
+                // Tenta carregar dados do localStorage primeiro (como no login)
+                const savedData = localStorage.getItem('user_data');
+                if (savedData) {
+                    try {
+                        currentUserData = JSON.parse(savedData);
+                        console.log('📱 Dados do localStorage:', currentUserData);
+                        
+                        // Preencher formulário com dados do localStorage
+                        if (currentUserData && currentUserData.nome) {
+                            populateForm(currentUserData);
+                            updateProfileDisplay(currentUserData);
+                            showMessage('Carregando dados do cache...', 'warning');
+                        }
+                    } catch (e) {
+                        console.error('Erro ao parsear dados do localStorage:', e);
+                    }
+                }
+                
+                // Agora tenta buscar dados atualizados da API
+                setLoading(true);
+                
+                console.log('🔍 Buscando dados atualizados da API...');
+                
+                // TENTAR DIFERENTES ENDPOINTS - Ajuste conforme sua API
+                let response;
+                
+                // Tenta primeiro o endpoint que você usa no dashboard
+                try {
+                    response = await fetch(`${API_BASE_URL}/usuarios/perfil`, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    });
+                    
+                    console.log('📊 Status da resposta (/usuarios/perfil):', response.status);
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('✅ Dados recebidos da API:', data);
+                        
+                        // Processa os dados conforme o formato da sua API
+                        if (data.user) {
+                            currentUserData = data.user;
+                        } else if (data.usuario) {
+                            currentUserData = data.usuario;
+                        } else if (data.data) {
+                            currentUserData = data.data;
+                        } else {
+                            currentUserData = data;
+                        }
+                        
+                    } else {
+                        // Se não conseguir, tenta outro endpoint
+                        console.log('⚠️  Primeiro endpoint falhou, tentando alternativo...');
+                        throw new Error('Endpoint 1 falhou');
+                    }
+                    
+                } catch (firstError) {
+                    console.log('Primeira tentativa falhou:', firstError.message);
+                    
+                    // Tenta endpoint alternativo
+                    try {
+                        const altResponse = await fetch(`${API_BASE_URL}/auth/me`, {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            }
+                        });
+                        
+                        console.log('📊 Status da resposta (/auth/me):', altResponse.status);
+                        
+                        if (altResponse.ok) {
+                            const data = await altResponse.json();
+                            currentUserData = data.user || data.usuario || data;
+                        } else {
+                            // Se ambos falharem, usa dados do localStorage
+                            if (!currentUserData || !currentUserData.nome) {
+                                throw new Error('Não foi possível carregar dados da API');
+                            }
+                        }
+                    } catch (secondError) {
+                        console.log('Segunda tentativa falhou:', secondError.message);
+                        // Continua com dados do localStorage se disponíveis
+                    }
+                }
+                
+                // Se conseguiu dados da API, salva no localStorage
+                if (currentUserData && currentUserData.nome) {
+                    localStorage.setItem('user_data', JSON.stringify(currentUserData));
+                    
+                    // Preencher formulário com dados
+                    populateForm(currentUserData);
+                    updateProfileDisplay(currentUserData);
+                    
+                    showMessage('Dados carregados com sucesso!', 'success');
+                } else if (!currentUserData || !currentUserData.nome) {
+                    throw new Error('Não foi possível carregar dados do usuário');
+                }
+                
+            } catch (error) {
+                console.error('❌ Erro ao carregar dados do usuário:', error);
+                
+                if (!currentUserData || !currentUserData.nome) {
+                    showMessage('Erro ao carregar dados. Verifique sua conexão.', 'error');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 3000);
+                } else {
+                    showMessage('Usando dados locais. Algumas informações podem estar desatualizadas.', 'warning');
+                }
+            } finally {
+                setLoading(false);
+            }
+        }
+        
+        // Preencher formulário com dados
+        function populateForm(userData) {
+            // Aba 1: Informações Pessoais
+            document.getElementById('firstName').value = userData.nome || '';
+            document.getElementById('lastName').value = userData.apelido || '';
+            document.getElementById('birthDate').value = userData.data_nascimento || '';
+            document.getElementById('gender').value = userData.genero || '';
+            document.getElementById('localNascimento').value = userData.local_nascimento || '';
+            document.getElementById('residenciaActual').value = userData.residenciaActual || '';
+            document.getElementById('bio').value = userData.bio || '';
+            
+            // Aba 2: Contato
+            document.getElementById('email').value = userData.email || '';
+            document.getElementById('phone').value = userData.contacto || '';
+            document.getElementById('country').value = userData.pais || 'MZ';
+            document.getElementById('city').value = userData.cidade || '';
+            document.getElementById('emergencyContact').value = userData.emergency_contact || '';
+            
+            // Aba 3: Preferências
+            document.getElementById('language').value = userData.language || 'pt';
+            document.getElementById('theme').value = userData.theme || 'light';
+            document.getElementById('notifyEmail').checked = userData.notify_email !== false;
+            document.getElementById('notifySite').checked = userData.notify_site !== false;
+            document.getElementById('notifyPromo').checked = userData.notify_promo === true;
+            document.getElementById('privacyPublic').checked = userData.privacy_public === true;
+            document.getElementById('privacyEmail').checked = userData.privacy_email === true;
+            
+            // Aba 4: Segurança
+            document.getElementById('twoFactorAuth').checked = userData.two_factor_auth === true;
+            
+            // Atualizar informações de atividade
+            updateActivityInfo(userData);
+            
+            // Atualizar status do e-mail
+            if (userData.email_verified) {
+                document.getElementById('emailStatus').innerHTML = '<i class="fas fa-check-circle"></i> Verificado';
+           /* } else {
+                document.getElementById('emailStatus').innerHTML = '<i class="fas fa-exclamation-circle"></i> Não verificado';
+                document.getElementById('emailStatus').style.color = '#e74c3c';*/
+            }
+            
+            // Atualizar data de criação da conta
+            if (userData.created_at) {
+                const createdDate = new Date(userData.created_at);
+                document.getElementById('accountCreated').textContent = createdDate.toLocaleDateString('pt-BR');
+            } else {
+                document.getElementById('accountCreated').textContent = 'Não disponível';
+            }
+            
+            // Atualizar última atualização
+            document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString('pt-BR');
+            
+            // Atualizar IP atual
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('currentIP').textContent = data.ip;
+                })
+                .catch(() => {
+                    document.getElementById('currentIP').textContent = 'Não disponível';
+                });
+        }
+        
+        // Atualizar informações de atividade
+        function updateActivityInfo(userData) {
+            const lastLogin = userData.last_login || new Date().toISOString();
+            const loginDate = new Date(lastLogin);
+            document.getElementById('lastLogin').textContent = 
+                `${loginDate.toLocaleDateString('pt-BR')} às ${loginDate.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}`;
+            
+            // Atualizar tempo da sessão
+            updateSessionTime();
+        }
+        
+        // Atualizar tempo da sessão
+        function updateSessionTime() {
+            const sessionTimeElement = document.getElementById('sessionTime');
+            if (!sessionTimeElement) return;
+            
+            const startTime = new Date();
+            
+            function updateTime() {
+                const now = new Date();
+                const diff = Math.floor((now - startTime) / 1000); // diferença em segundos
+                
+                if (diff < 60) {
+                    sessionTimeElement.textContent = 'Agora mesmo';
+                } else if (diff < 3600) {
+                    const minutes = Math.floor(diff / 60);
+                    sessionTimeElement.textContent = `Há ${minutes} minuto${minutes !== 1 ? 's' : ''}`;
+                } else {
+                    const hours = Math.floor(diff / 3600);
+                    sessionTimeElement.textContent = `Há ${hours} hora${hours !== 1 ? 's' : ''}`;
+                }
+            }
+            
+            updateTime();
+            setInterval(updateTime, 60000); // Atualizar a cada minuto
+        }
+        
+        // Atualizar exibição do perfil
+        function updateProfileDisplay(userData) {
+            const fullName = `${userData.nome || ''} ${userData.apelido || ''}`.trim();
+            if (profileName) profileName.textContent = fullName || 'Usuário';
+            if (profileEmail) profileEmail.textContent = userData.email || '';
+            
+            // Atualizar foto de perfil se existir
+            if (userData.profile_image && profileImage) {
+                profileImage.src = userData.profile_image;
+            } else if (profileImage) {
+                // Gerar avatar baseado nas iniciais
+                const initials = (userData.nome ? userData.nome.charAt(0) : '') + (userData.apelido ? userData.apelido.charAt(0) : '');
+                if (initials) {
+                    profileImage.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(initials)}&background=667eea&color=fff&size=150`;
+                }
+            }
+        }
+        
+        // Sistema de abas
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remover classe active de todas as abas
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Adicionar classe active à aba clicada
+                btn.classList.add('active');
+                const tabId = btn.getAttribute('data-tab');
+                const tabElement = document.getElementById(tabId);
+                if (tabElement) tabElement.classList.add('active');
+            });
+        });
+        
+        // Upload de foto de perfil
+        if (changePhotoBtn) {
+            changePhotoBtn.addEventListener('click', () => {
+                const fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.accept = 'image/*';
+                
+                fileInput.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        // Verificar tamanho do arquivo (máximo 5MB)
+                        if (file.size > 5 * 1024 * 1024) {
+                            showMessage('A imagem deve ter no máximo 5MB.', 'error');
+                            return;
+                        }
+                        
+                        // Mostrar preview da imagem
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            if (profileImage) profileImage.src = e.target.result;
+                            showMessage('Foto alterada com sucesso! Lembre-se de salvar as alterações.', 'success');
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+                
+                fileInput.click();
+            });
+        }
+        
+        // Botão de verificação de e-mail (ATUALIZADO)
+        const verifyEmailBtn = document.getElementById('verifyEmailBtn');
+        if (verifyEmailBtn) {
+            verifyEmailBtn.addEventListener('click', async () => {
+                try {
+                    const token = getAuthToken();
+                    if (!token) {
+                        showMessage('Você precisa estar logado.', 'error');
+                        return;
+                    }
+                    
+                    showMessage('Enviando e-mail de verificação...', 'warning');
+                    
+                    // Ajuste o endpoint conforme sua API
+                    const response = await fetch(`${API_BASE_URL}/auth/resend-verification`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        showMessage('E-mail de verificação enviado! Verifique sua caixa de entrada.', 'success');
+                    } else {
+                        const errorData = await response.json();
+                        showMessage(`Erro: ${errorData.message || 'Não foi possível enviar o e-mail'}`, 'error');
+                    }
+                } catch (error) {
+                    console.error('Erro:', error);
+                    showMessage('Erro ao enviar e-mail de verificação.', 'error');
+                }
+            });
+        }
+        
+        // Botão para encerrar outras sessões (ATUALIZADO)
+        const logoutOtherBtn = document.getElementById('logoutOtherBtn');
+        if (logoutOtherBtn) {
+            logoutOtherBtn.addEventListener('click', async () => {
+                if (confirm('Tem certeza que deseja encerrar todas as outras sessões ativas?')) {
+                    try {
+                        const token = getAuthToken();
+                        if (!token) {
+                            showMessage('Você precisa estar logado.', 'error');
+                            return;
+                        }
+                        
+                        showMessage('Encerrando outras sessões...', 'warning');
+                        
+                        // Ajuste o endpoint conforme sua API
+                        const response = await fetch(`${API_BASE_URL}/auth/logout-all`, {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            }
+                        });
+                        
+                        if (response.ok) {
+                            showMessage('Todas as outras sessões foram encerradas.', 'success');
+                            updateSessionTime();
+                        } else {
+                            showMessage('Erro ao encerrar outras sessões.', 'error');
+                        }
+                    } catch (error) {
+                        console.error('Erro:', error);
+                        showMessage('Erro ao encerrar outras sessões.', 'error');
+                    }
+                }
+            });
+        }
+        
+        // Botão para excluir conta
+        const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+        if (deleteAccountBtn) {
+            deleteAccountBtn.addEventListener('click', () => {
+                if (confirm('ATENÇÃO: Esta ação é irreversível. Todos os seus dados serão permanentemente excluídos. Tem certeza que deseja continuar?')) {
+                    showMessage('Para excluir sua conta, entre em contato com o suporte.', 'warning');
+                }
+            });
+        }
+        
+        // Toggle 2FA
+        const twoFactorAuth = document.getElementById('twoFactorAuth');
+        if (twoFactorAuth) {
+            twoFactorAuth.addEventListener('change', function() {
+                const infoDiv = document.getElementById('twoFactorInfo');
+                if (infoDiv) {
+                    infoDiv.style.display = this.checked ? 'block' : 'none';
+                }
+            });
+        }
+        
+        // Formatação automática do telefone (igual ao login)
+        const phoneInput = document.getElementById('phone');
+        if (phoneInput) {
+            phoneInput.addEventListener('input', function(e) {
+                let value = e.target.value;
+                let numbers = value.replace(/\D/g, '');
+                
+                if (numbers.startsWith('258')) {
+                    numbers = numbers.substring(3);
+                }
+                
+                numbers = numbers.substring(0, 9);
+                
+                if (numbers.length > 0) {
+                    value = '+258 ';
+                    if (numbers.length <= 2) {
+                        value += numbers;
+                    } else if (numbers.length <= 5) {
+                        value += numbers.substring(0, 2) + ' ' + numbers.substring(2);
+                    } else if (numbers.length <= 8) {
+                        value += numbers.substring(0, 2) + ' ' + numbers.substring(2, 5) + ' ' + numbers.substring(5);
+                    } else {
+                        value += numbers.substring(0, 2) + ' ' + numbers.substring(2, 5) + ' ' + numbers.substring(5, 8) + ' ' + numbers.substring(8);
+                    }
+                } else {
+                    value = '+258 ';
+                }
+                
+                e.target.value = value;
+            });
+        }
+        
+        // Validação do formulário
+        function validateForm() {
+            const firstName = document.getElementById('firstName');
+            const lastName = document.getElementById('lastName');
+            const birthDate = document.getElementById('birthDate');
+            const phone = document.getElementById('phone');
+            
+            if (!firstName || !lastName) {
+                showMessage('Elementos do formulário não encontrados.', 'error');
+                return false;
+            }
+            
+            if (!firstName.value.trim() || !lastName.value.trim()) {
+                showMessage('Nome e sobrenome são obrigatórios.', 'error');
+                return false;
+            }
+            
+            if (birthDate && birthDate.value) {
+                const birth = new Date(birthDate.value);
+                const today = new Date();
+                let age = today.getFullYear() - birth.getFullYear();
+                const monthDiff = today.getMonth() - birth.getMonth();
+                
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                    age--;
+                }
+                
+                if (age < 13) {
+                    showMessage('Você precisa ter pelo menos 13 anos.', 'error');
+                    return false;
+                }
+            }
+            
+            if (phone && phone.value) {
+                const phoneDigits = phone.value.replace(/\D/g, '');
+                if (phoneDigits.length < 9) {
+                    showMessage('Número de telefone inválido (mínimo 9 dígitos).', 'error');
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+        
+        // ==================== ENVIO DO FORMULÁRIO ====================
+        
+        if (profileForm) {
+            profileForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                if (!validateForm()) return;
+                
+                // Verifica autenticação (igual ao login)
+                if (!checkAuthentication()) {
+                    showMessage('Sessão expirada. Faça login novamente.', 'error');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                    return;
+                }
+                
+                const token = getAuthToken();
+                if (!token) {
+                    showMessage('Você precisa estar logado.', 'error');
+                    return;
+                }
+                
+                setLoading(true);
+                
+                try {
+                    // Preparar dados para envio
+                    const formData = {
+                        nome: document.getElementById('firstName').value.trim(),
+                        apelido: document.getElementById('lastName').value.trim(),
+                        data_nascimento: document.getElementById('birthDate').value,
+                        genero: document.getElementById('gender').value,
+                        local_nascimento: document.getElementById('localNascimento').value.trim(),
+                        residenciaActual: document.getElementById('residenciaActual').value.trim(),
+                        bio: document.getElementById('bio').value.trim(),
+                        contacto: document.getElementById('phone').value.replace(/\D/g, ''),
+                        pais: document.getElementById('country').value,
+                        cidade: document.getElementById('city').value.trim(),
+                        emergency_contact: document.getElementById('emergencyContact').value.replace(/\D/g, ''),
+                        language: document.getElementById('language').value,
+                        theme: document.getElementById('theme').value,
+                        notify_email: document.getElementById('notifyEmail').checked,
+                        notify_site: document.getElementById('notifySite').checked,
+                        notify_promo: document.getElementById('notifyPromo').checked,
+                        privacy_public: document.getElementById('privacyPublic').checked,
+                        privacy_email: document.getElementById('privacyEmail').checked,
+                        two_factor_auth: document.getElementById('twoFactorAuth').checked
+                    };
+                    
+                    console.log('📤 Enviando dados atualizados:', formData);
+                    
+                    // TENTAR DIFERENTES ENDPOINTS PARA ATUALIZAÇÃO
+                    let response;
+                    let success = false;
+                    
+                    // Tenta primeiro endpoint comum
+                    try {
+                        response = await fetch(`${API_BASE_URL}/usuarios/atualizar-perfil`, {
+                            method: 'PUT',
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify(formData)
+                        });
+                        
+                        console.log('📊 Status da resposta (/usuarios/atualizar-perfil):', response.status);
+                        
+                        if (response.ok) {
+                            success = true;
+                        } else {
+                            throw new Error('Endpoint 1 falhou');
+                        }
+                        
+                    } catch (firstError) {
+                        console.log('Primeiro endpoint falhou, tentando alternativo...');
+                        
+                        // Tenta endpoint alternativo
+                        try {
+                            response = await fetch(`${API_BASE_URL}/auth/update-profile`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Authorization': `Bearer ${token}`,
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(formData)
+                            });
+                            
+                            console.log('📊 Status da resposta (/auth/update-profile):', response.status);
+                            
+                            if (response.ok) {
+                                success = true;
+                            } else {
+                                throw new Error('Endpoint 2 falhou');
+                            }
+                            
+                        } catch (secondError) {
+                            console.log('Segundo endpoint falhou, tentando terceiro...');
+                            
+                            // Tenta terceira opção
+                            response = await fetch(`${API_BASE_URL}/usuarios/${currentUserData.id}`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Authorization': `Bearer ${token}`,
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(formData)
+                            });
+                            
+                            console.log('📊 Status da resposta (/usuarios/{id}):', response.status);
+                            
+                            if (response.ok) {
+                                success = true;
+                            } else {
+                                throw new Error('Todos os endpoints falharam');
+                            }
+                        }
+                    }
+                    
+                    if (success) {
+                        showMessage('✅ Perfil atualizado com sucesso!', 'success');
+                        
+                        // Atualizar dados locais
+                        if (currentUserData) {
+                            currentUserData = { ...currentUserData, ...formData };
+                            localStorage.setItem('user_data', JSON.stringify(currentUserData));
+                            updateProfileDisplay(currentUserData);
+                        }
+                        
+                        // Atualizar última atualização
+                        document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString('pt-BR');
+                        
+                    } else {
+                        const errorData = await response.json();
+                        const errorMsg = errorData.message || errorData.error || 'Erro ao atualizar perfil';
+                        showMessage(`❌ ${errorMsg}`, 'error');
+                    }
+                    
+                } catch (error) {
+                    console.error('❌ Erro ao atualizar perfil:', error);
+                    
+                    if (error.message.includes('Failed to fetch')) {
+                        showMessage('❌ Não foi possível conectar ao servidor. Verifique sua conexão.', 'error');
+                    } else {
+                        showMessage(`❌ Erro: ${error.message}`, 'error');
+                    }
+                } finally {
+                    setLoading(false);
+                }
+            });
+        }
+        
+        // ==================== INICIALIZAÇÃO ====================
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 Página de edição de perfil carregada');
+            
+            // Verificar se está autenticado (mesma lógica do login)
+            if (!checkAuthentication()) {
+                showMessage('Você precisa fazer login para acessar esta página.', 'error');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+                return;
+            }
+            
+            // Carregar dados do usuário
+            loadUserData();
+            
+            // Configurar data de nascimento máxima (hoje - 13 anos)
+            const today = new Date();
+            const maxDate = new Date();
+            maxDate.setFullYear(today.getFullYear() - 13);
+            const birthDateInput = document.getElementById('birthDate');
+            if (birthDateInput) {
+                birthDateInput.max = maxDate.toISOString().split('T')[0];
+            }
+            
+            // Configurar links
+            const backLink = document.getElementById('backLink');
+            if (backLink) {
+                backLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.href = 'dashboard.html';
+                });
+            }
+            
+            // Link para alterar senha
+            const changePasswordLink = document.getElementById('changePasswordLink');
+            if (changePasswordLink) {
+                changePasswordLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.href = 'alterar_senha.html';
+                });
+            }
+            
+            // Debug
+            debugAuth();
+        });
+        
+        // Função para debug - mostra informações no console
+        function debugAuth() {
+            const token = localStorage.getItem('auth_token');
+            const userData = localStorage.getItem('user_data');
+            
+            console.log('🔑 Debug de Autenticação:');
+            console.log('Token presente:', token ? 'Sim' : 'Não');
+            console.log('Token (início):', token ? token.substring(0, 20) + '...' : 'N/A');
+            console.log('User data salvo:', userData ? 'Sim' : 'Não');
+            
+            if (userData) {
+                try {
+                    const parsed = JSON.parse(userData);
+                    console.log('Dados do usuário:', parsed);
+                } catch (e) {
+                    console.error('Erro ao parsear user_data:', e);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
