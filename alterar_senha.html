@@ -412,9 +412,9 @@
         <div class="message" id="message"></div>
 
         <div class="back-link">
-            <a href="index.html">
+            <a href="dashboard.html">
                 <span>←</span>
-                Voltar para o index
+                Voltar para o dashboard
             </a>
         </div>
     </form>
@@ -465,7 +465,7 @@
         if (!checkAuthentication()) {
             showMessage('Você precisa estar logado para alterar a senha.', 'error');
             setTimeout(() => {
-                window.location.href = 'index.html';
+                window.location.href = 'dashboard.html';
             }, 2000);
             return;
         }
@@ -713,7 +713,7 @@
         if (!checkAuthentication()) {
             showMessage('Sua sessão expirou. Faça login novamente.', 'error');
             setTimeout(() => {
-                window.location.href = 'index.html';
+                window.location.href = 'dashboard.html';
             }, 2000);
             return;
         }
@@ -856,7 +856,7 @@
                 
                 // Redirecionar após 5 segundos
                 setTimeout(() => {
-                    window.location.href = 'index.html';
+                    window.location.href = 'dashboard.html';
                 }, 5000);
                 
             } else {
@@ -923,10 +923,10 @@
         
         if (formChanged && !isSubmitting) {
             if (confirm('Você tem alterações não salvas. Deseja realmente sair?')) {
-                window.location.href = 'index.html';
+                window.location.href = 'dashboard.html';
             }
         } else {
-            window.location.href = 'index.html';
+            window.location.href = 'dashboard.html';
         }
     });
 </script>

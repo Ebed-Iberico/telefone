@@ -310,7 +310,7 @@
             right: 0;
             height: 2px;
             background-color: #ddd;
-            z-index: 1;
+            z-dashboard: 1;
         }
         
         .step {
@@ -324,7 +324,7 @@
             justify-content: center;
             font-weight: bold;
             position: relative;
-            z-index: 2;
+            z-dashboard: 2;
             transition: all 0.3s;
         }
         
@@ -668,7 +668,7 @@
             </form>
             
             <div class="login-link">
-                Já tem uma conta? <a href="index.html" id="loginLinkBottom">Faça login</a>
+                Já tem uma conta? <a href="dashboard.html" id="loginLinkBottom">Faça login</a>
             </div>
         </div>
     </div>
@@ -695,11 +695,11 @@
         // Função para atualizar os passos
         function updateSteps(step) {
             // Atualizar indicadores de passo
-            steps.forEach((stepElement, index) => {
-                if (index === step) {
+            steps.forEach((stepElement, dashboard) => {
+                if (dashboard === step) {
                     stepElement.classList.add('active');
                     stepElement.classList.remove('completed');
-                } else if (index < step) {
+                } else if (dashboard < step) {
                     stepElement.classList.remove('active');
                     stepElement.classList.add('completed');
                 } else {
@@ -709,8 +709,8 @@
             });
             
             // Atualizar formulários visíveis
-            formSteps.forEach((formStep, index) => {
-                if (index === step) {
+            formSteps.forEach((formStep, dashboard) => {
+                if (dashboard === step) {
                     formStep.classList.add('active');
                 } else {
                     formStep.classList.remove('active');
@@ -1100,7 +1100,7 @@
                         
                         // Redirecionar para login após 3 segundos
                         setTimeout(() => {
-                            window.location.href = 'index.html';
+                            window.location.href = 'dashboard.html';
                         }, 3000);
                     }
                     
@@ -1127,13 +1127,13 @@
         // Link para login
         document.getElementById('loginLinkBottom').addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.href = 'index.html';
+            window.location.href = 'dashboard.html';
         });
         
         // Link no painel esquerdo
         document.getElementById('loginLinkLeft').addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.href = 'index.html';
+            window.location.href = 'dashboard.html';
         });
         
         // Configurar data de nascimento máxima (hoje - 13 anos)
